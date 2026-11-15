@@ -7,7 +7,7 @@
  * `dnd5e-combat.summonOnTargets`, son §118) et ce module relève le cadavre (runtime/necromancy.mjs).
  */
 
-/** Morts-vivants que l'on relève : identifiants du pack `dnd-monster-manual.actors`. */
+/** Morts-vivants que l'on relève : identifiants du pack `dnd-monster-manual.actors`, les mêmes dans `dnd5e.actors24` (SRD 2024). */
 export const UNDEAD = {
   skeleton: "mmSkeleton000000",
   zombie: "mmZombie00000000"

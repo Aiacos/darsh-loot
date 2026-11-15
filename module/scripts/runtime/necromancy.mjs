@@ -25,7 +25,9 @@ import { UNDEAD, SPELL_RANGE_FT, RAISING_SPELLS, canAnimate, undeadKindOf, feetT
 import { SUMMON_ON_TARGETS_HOOK, engineIdentifier } from "../adapter/engine.mjs";
 
 const ANIMATE_QUERY = `${MODULE_ID}.animate`;
+/** Le Monster Manual 2024 (premium), sinon les créatures du SRD 2024 de dnd5e : mêmes ids (`mmSkeleton000000`, `mmZombie00000000`). */
 const MM_ACTORS = "dnd-monster-manual.actors";
+const SRD_ACTORS = "dnd5e.actors24";
 const FOLDER_FLAG = "undead";
 
 /** Ce cadavre peut-il être relevé (par ce sort, identifiant dnd5e, s'il est donné) ? */
@@ -59,7 +61,7 @@ async function handleAnimate({ corpse: corpseUuid, caster: casterUuid, kind, spe
     if ( caster.parent !== corpse.parent ) throw new Error(loc("Refus.Loin"));
     if ( (rangeFt !== null) && (tokenDistance(caster, corpse) > feetToSceneUnits(rangeFt, corpse.parent.grid.units)) ) throw new Error(loc("Refus.Loin"));
   }
-  const pack = game.packs.get(MM_ACTORS);
+  const pack = [MM_ACTORS, SRD_ACTORS].map(id => game.packs.get(id)).find(pk => pk?.index?.has(UNDEAD[kind]));
   if ( !pack ) throw new Error(loc("Necro.NeedMM"));
 
   const remains = await dropBelongings(corpse);
@@ -112,7 +114,7 @@ async function undeadFolder() {
     flags: { [MODULE_ID]: { [FOLDER_FLAG]: true } } });
 }
 
-/** L'acteur du mort-vivant : copie du Monster Manual, au nom du mort, propriété des joueurs du lanceur. */
+/** L'acteur du mort-vivant : copie du Monster Manual (ou du SRD 2024), au nom du mort, propriété des joueurs du lanceur. */
 async function createUndead(pack, kind, corpse, caster) {
   const folder = await undeadFolder();
   const owners = caster?.actor

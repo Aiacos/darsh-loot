@@ -58,7 +58,7 @@
       },
       "Pockets": {
         "Name": "Humanoid pockets",
-        "Hint": "Humanoids may also carry a few mundane items (rations, candles, a torch, a trinket…) from the Player's Handbook."
+        "Hint": "Humanoids may also carry a few mundane items (rations, candles, a torch, a trinket…) from the Player's Handbook, or from the dnd5e SRD without it."
       },
       "TheftHostile": {
         "Name": "Caught thieves make enemies",
@@ -149,7 +149,7 @@
       "Tool": {
         "tables": {
           "Name": "Generic container tables",
-          "Hint": "Seven loot tables (chest, barrel, crate, bookshelf, desk, altar, camping bag) in \"Loot — tables\". Needs the Player's Handbook.",
+          "Hint": "Seven loot tables (chest, barrel, crate, bookshelf, desk, altar, camping bag) in \"Loot — tables\". Player's Handbook items, or the same ones from the dnd5e SRD without it.",
           "Button": "Create the tables"
         }
       }
@@ -247,9 +247,9 @@
       "camp": "Camp bag",
       "MenuName": "Generic container tables",
       "MenuLabel": "Create the tables",
-      "MenuHint": "Creates in this world the generic loot tables (chest, barrel, crate, bookshelf, desk, altar, camp bag) from Player's Handbook items, in the “Loot — tables” folder. Tables already created are left as they are.",
+      "MenuHint": "Creates in this world the generic loot tables (chest, barrel, crate, bookshelf, desk, altar, camp bag) from Player's Handbook items (or the same ones from the dnd5e SRD without it), in the “Loot — tables” folder. Tables already created are left as they are.",
       "Created": "{count} table(s) created in “Loot — tables”.",
-      "NeedPHB": "The Player's Handbook module must be active."
+      "NeedPHB": "Neither the Player's Handbook nor the dnd5e SRD equipment compendium is available."
     },
     "Steal": {
       "Title": "Pickpocket: {name}",
@@ -313,7 +313,7 @@
       "Chat": "{caster} raises {corpse}: {undead} rises.",
       "Someone": "Someone",
       "NotRaisable": "Only the corpse of a Small or Medium humanoid can be raised.",
-      "NeedMM": "The Monster Manual module must be active."
+      "NeedMM": "Neither the Monster Manual nor the dnd5e SRD creatures compendium has this undead."
     },
     "Drop": {
       "QuantityTitle": "Drop: {name}",

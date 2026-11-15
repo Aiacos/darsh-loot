@@ -58,7 +58,7 @@
       },
       "Pockets": {
         "Name": "Poches des humanoïdes",
-        "Hint": "Les humanoïdes peuvent aussi porter quelques objets ordinaires (rations, bougies, une torche, une babiole…) du Manuel des joueurs."
+        "Hint": "Les humanoïdes peuvent aussi porter quelques objets ordinaires (rations, bougies, une torche, une babiole…) du Manuel des joueurs, ou du SRD de dnd5e sans lui."
       },
       "TheftHostile": {
         "Name": "Un voleur pris se fait des ennemis",
@@ -149,7 +149,7 @@
       "Tool": {
         "tables": {
           "Name": "Tables génériques de conteneurs",
-          "Hint": "Sept tables de butin (coffre, tonneau, caisse, bibliothèque, bureau, autel, sac de campement) dans « Butin — tables ». Il faut le Manuel des joueurs.",
+          "Hint": "Sept tables de butin (coffre, tonneau, caisse, bibliothèque, bureau, autel, sac de campement) dans « Butin — tables ». Objets du Manuel des joueurs, ou les mêmes du SRD de dnd5e sans lui.",
           "Button": "Créer les tables"
         }
       }
@@ -247,9 +247,9 @@
       "camp": "Sac de campement",
       "MenuName": "Tables génériques de conteneurs",
       "MenuLabel": "Créer les tables",
-      "MenuHint": "Crée dans ce monde les tables de butin génériques (coffre, tonneau, caisse, bibliothèque, bureau, autel, sac de campement), faites d'objets du Manuel des joueurs, dans le dossier « Butin — tables ». Les tables déjà créées sont laissées telles quelles.",
+      "MenuHint": "Crée dans ce monde les tables de butin génériques (coffre, tonneau, caisse, bibliothèque, bureau, autel, sac de campement), faites d'objets du Manuel des joueurs (ou des mêmes du SRD de dnd5e sans lui), dans le dossier « Butin — tables ». Les tables déjà créées sont laissées telles quelles.",
       "Created": "{count} table(s) créée(s) dans « Butin — tables ».",
-      "NeedPHB": "Le module Manuel des joueurs doit être actif."
+      "NeedPHB": "Ni le Manuel des joueurs ni le compendium d'équipement du SRD de dnd5e ne sont disponibles."
     },
     "Steal": {
       "Title": "Vol à la tire : {name}",
@@ -313,7 +313,7 @@
       "Chat": "{caster} relève {corpse} : {undead} se dresse.",
       "Someone": "Quelqu'un",
       "NotRaisable": "Seul le cadavre d'un humanoïde de taille Petite ou Moyenne peut être relevé.",
-      "NeedMM": "Le module Monster Manual doit être actif."
+      "NeedMM": "Ni le Monster Manual ni le compendium de créatures du SRD de dnd5e n'ont ce mort-vivant."
     },
     "Drop": {
       "QuantityTitle": "Poser : {name}",

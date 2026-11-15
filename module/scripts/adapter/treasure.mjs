@@ -1,7 +1,9 @@
 /**
  * Tirage du trésor d'un cadavre (SPEC §3.1, étape 2), une fois, chez le MJ, à la première fouille.
  * Règles : core/treasure.mjs. Sources : DMG 2024 (tables et objets génériques de trésor), PHB 2024 (équipement,
- * babioles) ; un module absent retire seulement ce qu'il fournit.
+ * babioles) — sans le PHB, le SRD 2024 de dnd5e, qui porte les mêmes objets et la même table de babioles sous les mêmes ids
+ * (`dnd5e.equipment24`, `dnd5e.tables24`) ; un module absent retire seulement ce qu'il fournit (le DMG : gemmes, objets d'art,
+ * objets magiques des repaires, sans équivalent dans le SRD).
  */
 import { MODULE_ID } from "../shared.mjs";
 import {
@@ -13,6 +15,8 @@ import { GENERIC_TABLES } from "../core/tables.mjs";
 
 const DMG = "dnd-dungeon-masters-guide";
 const PHB = "dnd-players-handbook";
+const SRD_EQUIPMENT = "dnd5e.equipment24";
+const SRD_TABLES = "dnd5e.tables24";
 const TRINKET_IMG = "icons/commodities/treasure/box-jade-tassel.webp";
 
 /** Objets génériques et tables de noms du DMG, par valeur (ids du pack `equipment` et du pack `tables`). */
@@ -40,6 +44,9 @@ const MAGIC_TABLES = {
 };
 
 const active = id => !!game.modules.get(id)?.active;
+/** L'équipement et les tables du PHB, sinon ceux du SRD 2024 de dnd5e (mêmes ids) ; null si aucun n'est là. */
+const equipmentPack = () => active(PHB) ? `${PHB}.equipment` : (game.packs.get(SRD_EQUIPMENT) ? SRD_EQUIPMENT : null);
+const phbTablesPack = () => active(PHB) ? `${PHB}.tables` : SRD_TABLES;
 const rollTotal = async formula => (await new Roll(formula).evaluate({ allowInteractive: false })).total;
 const itemUuid = (pack, id) => `Compendium.${pack}.Item.${id}`;
 const tableUuid = (pack, id) => `Compendium.${pack}.RollTable.${id}`;
@@ -140,17 +147,18 @@ export async function rollTreasure(actor, { pockets=true, individual=true }={}) 
     for ( const a of shaped.art ) items.push(...await valuable("art", a.value, a.count));
   }
 
-  if ( pockets && POCKET_TYPES.has(details.type?.value) && active(PHB) ) {
+  const equipment = equipmentPack();
+  if ( pockets && POCKET_TYPES.has(details.type?.value) && equipment ) {
     const roll = await new Roll(POCKETS_FORMULA).evaluate({ allowInteractive: false });
     const row = pickRange(POCKETS, roll.total);
     for ( const entry of row?.items ?? [] ) {
       const quantity = (typeof entry.quantity === "string")
         ? (await new Roll(entry.quantity).evaluate({ allowInteractive: false })).total : entry.quantity;
-      const data = await fromPack(itemUuid(`${PHB}.equipment`, entry.id), { "system.quantity": quantity });
+      const data = await fromPack(itemUuid(equipment, entry.id), { "system.quantity": quantity });
       if ( data ) items.push(data);
     }
     if ( row?.trinket ) {
-      const text = await drawText(tableUuid(`${PHB}.tables`, "phbStartingTrink"));
+      const text = await drawText(tableUuid(phbTablesPack(), "phbStartingTrink"));
       if ( text ) items.push({ name: shortName(text), type: "loot", img: TRINKET_IMG,
         system: { quantity: 1, description: { value: `<p>${text}</p>` } } });
     }
@@ -172,7 +180,8 @@ export async function rollTreasure(actor, { pockets=true, individual=true }={}) 
  * @returns {Promise<RollTable[]>}  Les tables créées cette fois-ci.
  */
 export async function createGenericTables() {
-  if ( !active(PHB) ) throw new Error("dnd-players-handbook");
+  const equipment = equipmentPack();
+  if ( !equipment ) throw new Error("dnd-players-handbook");
   let folder = game.folders.find(f => (f.type === "RollTable") && f.getFlag(MODULE_ID, "tables"));
   folder ??= await Folder.implementation.create({ name: game.i18n.localize("DLO.Tables.Folder"), type: "RollTable",
     color: "#6b5634", flags: { [MODULE_ID]: { tables: true } } });
@@ -184,7 +193,7 @@ export async function createGenericTables() {
     for ( const [from, to, id] of def.results ) {
       const base = { range: [from, to], weight: to - from + 1 };
       if ( !id ) { results.push({ ...base, type: "text", description: nothing, flags: { [MODULE_ID]: { nothing: true } } }); continue; }
-      const uuid = itemUuid(`${PHB}.equipment`, id);
+      const uuid = itemUuid(equipment, id);
       const item = await fromUuid(uuid).catch(() => null);
       if ( !item ) continue;
       results.push({ ...base, type: "document", documentUuid: uuid, name: item.name, img: item.img });

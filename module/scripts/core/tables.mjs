@@ -1,6 +1,7 @@
 /**
  * Tables génériques de conteneurs (SPEC §3.2) : données pures, créées dans le monde par `api.createTables()` (le MJ
- * les modifie ensuite à sa guise). `id` : objet du pack `dnd-players-handbook.equipment` ; sans `id`, la case ne donne
+ * les modifie ensuite à sa guise). `id` : objet du pack `dnd-players-handbook.equipment` (le même id dans `dnd5e.equipment24`, le SRD
+ * 2024, sans le PHB) ; sans `id`, la case ne donne
  * rien. Testé par tests/tables.test.mjs (chaque valeur du dé a sa case, identifiants de 16 caractères).
  */
 export const GENERIC_TABLES = [

@@ -56,7 +56,7 @@
       },
       "Pockets": {
         "Name": "Bolsos de humanoides",
-        "Hint": "Humanoides também podem carregar alguns itens comuns (rações, velas, tocha, bugiganga…) do Livro do Jogador."
+        "Hint": "Humanoides também podem carregar alguns itens comuns (rações, velas, tocha, bugiganga…) do Livro do Jogador, ou do SRD do dnd5e sem ele."
       },
       "TheftHostile": {
         "Name": "Ladrões descobertos criam inimigos",
@@ -213,9 +213,9 @@
       "camp": "Bolsa de acampamento",
       "MenuName": "Tabelas genéricas de contêineres",
       "MenuLabel": "Criar as tabelas",
-      "MenuHint": "Cria neste mundo tabelas genéricas de saque (baú, barril, caixote, estante, escrivaninha, altar e bolsa de acampamento) com itens do Livro do Jogador, na pasta \"Saque — tabelas\". Tabelas já existentes não são modificadas.",
+      "MenuHint": "Cria neste mundo tabelas genéricas de saque (baú, barril, caixote, estante, escrivaninha, altar e bolsa de acampamento) com itens do Livro do Jogador (ou os mesmos do SRD do dnd5e sem ele), na pasta \"Saque — tabelas\". Tabelas já existentes não são modificadas.",
       "Created": "{count} tabela(s) criada(s) em \"Saque — tabelas\".",
-      "NeedPHB": "O módulo do Livro do Jogador deve estar ativo."
+      "NeedPHB": "Nem o Livro do Jogador nem o compêndio de equipamentos do SRD do dnd5e estão disponíveis."
     },
     "Steal": {
       "Title": "Bater carteira: {name}",
@@ -256,7 +256,7 @@
       "Chat": "{caster} reanima {corpse}: {undead} se ergue.",
       "Someone": "Alguém",
       "NotRaisable": "Somente o cadáver de um humanoide Pequeno ou Médio pode ser reanimado.",
-      "NeedMM": "O módulo do Manual dos Monstros deve estar ativo."
+      "NeedMM": "Nem o Manual dos Monstros nem o compêndio de criaturas do SRD do dnd5e têm este morto-vivo."
     },
     "Drop": {
       "QuantityTitle": "Largar: {name}",
@@ -992,7 +992,7 @@
       "Tool": {
         "tables": {
           "Name": "Tabelas genéricas de contêineres",
-          "Hint": "Sete tabelas de saque (baú, barril, caixote, estante de livros, escrivaninha, altar e bolsa de acampamento) em \"Saque — tabelas\". Requer o Livro do Jogador.",
+          "Hint": "Sete tabelas de saque (baú, barril, caixote, estante de livros, escrivaninha, altar e bolsa de acampamento) em \"Saque — tabelas\". Itens do Livro do Jogador, ou os mesmos do SRD do dnd5e sem ele.",
           "Button": "Criar as tabelas"
         }
       }
