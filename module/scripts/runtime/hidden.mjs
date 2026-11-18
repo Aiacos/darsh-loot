@@ -18,7 +18,7 @@ import { askGM } from "./take.mjs";
 import { passiveFinds, searchReach, searchWait, alreadyTried, withTry, revealWall, discoveryKey, normalizeHidden } from "../core/hidden.mjs";
 import { concealedThings, regionConcealed, reaches, passiveScore, tilesIn, playerToken, wallHidden } from "../adapter/hidden.mjs";
 import { TOKEN_MENU_HOOK, engineStopWalks, engineBudgetIssues, engineSpend, engineTimer } from "../adapter/engine.mjs";
-import { concealedTraps, regionHiddenByTraps, tilesHiddenByTraps } from "../adapter/trapped.mjs";
+import { concealedTraps, regionHiddenByTraps, hiddenByTraps, tilesHiddenByTraps } from "../adapter/trapped.mjs";
 import { feedbackCard, playForAll, SOUNDS } from "./feedback.mjs";
 import { waitForDice, newRollMessage } from "../adapter/dice.mjs";
 
@@ -79,8 +79,10 @@ async function syncRegion(region) {
  */
 export async function syncTrapParts(scene) {
   if ( !scene ) return;
+  // Les pièges se lisent une fois pour toute la scène, pas une fois par région (`syncRegion` relit ceux de la région qu'il traite).
+  const hidden = hiddenByTraps(scene);
   for ( const region of scene.regions ) {
-    if ( region.getFlag(MODULE_ID, "concealed") || regionHiddenByTraps(region) ) await syncRegion(region);
+    if ( region.getFlag(MODULE_ID, "concealed") || hidden.has(region) ) await syncRegion(region);
   }
   const hide = new Set(tilesHiddenByTraps(scene));
   const updates = [];
