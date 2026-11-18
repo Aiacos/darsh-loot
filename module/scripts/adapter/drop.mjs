@@ -209,8 +209,10 @@ export async function moveItem(from, to, itemId, quantity, { anyType=false, laun
   if ( !canLeaveOwner({ fromNpc, properties: held.system.properties }) ) return { name: held.name, quantity: 0, kept: true };
   const item = fromNpc ? ((await held.system.asGear?.()) ?? held) : held;
   const available = held.system.quantity ?? 1;
-  // Un stock infini (`copy`) ne plafonne pas à ce qui reste sur la fiche.
-  const moved = copy ? Math.max(1, Math.floor(Number(quantity) || 1)) : Math.max(1, Math.min(Number(quantity) || available, available));
+  // Un stock infini (`copy`) ne plafonne pas à ce qui reste sur la fiche. Toujours un nombre entier d'exemplaires : une quantité
+  // à virgule (macro, `api.drop`) laisserait une demi-flèche de chaque côté.
+  const moved = copy ? Math.max(1, Math.floor(Number(quantity) || 1))
+    : Math.max(1, Math.min(Math.floor(Number(quantity) || available), available));
   // Prix à l'unité en pc (pour l'empilement à l'étal d'objets sans source de compendium).
   const priceOf = i => (Number(i.system.price?.value) || 0) * ({ pp: 1000, gp: 100, ep: 50, sp: 10, cp: 1 }[i.system.price?.denomination] ?? 100);
   // Un objet dont le contenant n'existe pas sur la fiche (référence orpheline, fréquente à l'étal d'un marchand importé)
