@@ -8,6 +8,7 @@ import { route } from "./router.mjs";
 import { askGM, sourceRef } from "./take.mjs";
 import { resolveSource, merchantSource } from "../adapter/sources.mjs";
 import { TOKEN_MENU_HOOK } from "../adapter/engine.mjs";
+import { inTurn } from "../adapter/ledger.mjs";
 import {
   merchantOf, merchantToken, isMerchant, quote, executeDeal, restock, memorizeStock, convertItemPiles, formatPrice
 } from "../adapter/shop.mjs";
@@ -32,9 +33,6 @@ export function requestDeal(source, looter, cart) {
 /*  Chez le MJ                                  */
 /* -------------------------------------------- */
 
-/** Trocs en cours par marchand : deux joueurs qui concluent en même temps passent l'un après l'autre. */
-const busy = new Map();
-
 async function handleDeal(payload, { user }) {
   const source = resolveSource(payload.source);
   const looter = fromUuidSync(payload.looter, { strict: false });
@@ -46,11 +44,9 @@ async function handleDeal(payload, { user }) {
     if ( merchantOf(source.actor).closed ) throw new Error(loc("Shop.Closed"));
     if ( source.distance(looter) > sceneSetting("reach", looter.parent) ) throw new Error(loc("Shop.TooFar"));
   }
-  const previous = busy.get(source.uuid) ?? Promise.resolve();
-  const run = previous.catch(() => {}).then(() => deal(source, looter, payload));
-  busy.set(source.uuid, run);
-  try { return await run; }
-  finally { if ( busy.get(source.uuid) === run ) busy.delete(source.uuid); }
+  // Deux joueurs qui concluent en même temps passent l'un après l'autre ; et le devis se fait dans le même tour que les
+  // écritures, sur le marchand **et** le personnage : sa bourse ne bouge pas (échange, vol, autre marchand) entre les deux.
+  return inTurn([source.actor, buyer], () => deal(source, looter, payload));
 }
 
 async function deal(source, looter, payload) {

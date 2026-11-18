@@ -5,6 +5,7 @@ import { MODULE_ID } from "../shared.mjs";
 import { isCorpse, gearEntries, coinsOf, hasLoot, stackTarget, edgeDistance, addCoins, COINS } from "../core/loot.mjs";
 import { sizeOfSpan } from "../core/traps.mjs";
 import { nextStolenMark } from "../core/theft.mjs";
+import { inTurn } from "./ledger.mjs";
 
 /** Le token (document) est-il un cadavre fouillable ? */
 export function corpseToken(tokenDoc) {
@@ -121,7 +122,15 @@ export function keyItem(actor, keyName) {
  *   s'empile jamais sur un objet honnête.
  * @returns {Promise<{ names: string[], coins: object[] }>}  Ce qui a été pris.
  */
-export async function transfer(corpse, recipient, { itemIds=[], coins=false, stolen=null }={}) {
+export function transfer(corpse, recipient, what={}) {
+  return inTurn([corpse, recipient], () => transferNow(corpse, recipient, what));
+}
+
+/**
+ * Le transfert lui-même, pour un geste qui tient déjà son tour sur ces deux acteurs (`inTurn`, adapter/ledger.mjs) : ce qui
+ * reste à la source se lit ici, le tour venu — une prise arrivée juste avant a pu tout emporter.
+ */
+export async function transferNow(corpse, recipient, { itemIds=[], coins=false, stolen=null }={}) {
   const Item5e = CONFIG.Item.documentClass;
   const available = new Set(gearEntries(plainItems(corpse), requireGear(corpse)).map(e => e.id));
   const taken = { names: [], coins: [] };

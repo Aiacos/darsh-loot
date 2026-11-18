@@ -4,7 +4,8 @@
  * l'utilisateur qui demande (documents/collections/users.mjs:230).
  */
 import { MODULE_ID, loc, setting, sceneSetting, log } from "../shared.mjs";
-import { transfer } from "../adapter/dnd5e.mjs";
+import { transferNow } from "../adapter/dnd5e.mjs";
+import { inTurn } from "../adapter/ledger.mjs";
 import { resolveSource } from "../adapter/sources.mjs";
 import { stolenFlag } from "../core/theft.mjs";
 import { clearIfEmpty } from "../adapter/drop.mjs";
@@ -67,10 +68,17 @@ async function handleTake(payload, { user }) {
   const owner = (source.kind === "container") ? source.doc.system.owner : "";
   const stolen = owner ? stolenFlag({ from: owner, fromUuid: source.uuid, place: source.doc.parent?.parent?.name,
     time: game.time.worldTime }) : null;
-  const taken = await transfer(source.actor, looter.actor, { itemIds: payload.itemIds, coins: payload.coins, stolen });
+  // Deux prises à la même source (deux joueurs sur « Tout prendre ») passent l'une après l'autre : la seconde ne voit que
+  // ce que la première a laissé.
+  const taken = await inTurn([source.actor, looter.actor], async () => {
+    // Le tour venu, la source a pu disparaître : un tas vidé par la prise d'avant est parti avec sa région.
+    if ( !source.exists() ) throw new Error(loc("Refus.Introuvable"));
+    const moved = await transferNow(source.actor, looter.actor, { itemIds: payload.itemIds, coins: payload.coins, stolen });
+    if ( source.kind === "container" ) await clearIfEmpty(source.doc.parent);   // un tas au sol vidé disparaît (§3.8)
+    return moved;
+  });
   announce(looter, source, taken, !!stolen);
   if ( taken.names.length || taken.coins.length ) playForAll(SOUNDS.coins, 0.6);   // 2026-10-28 : prendre s'entend (les pièces)
-  if ( source.kind === "container" ) await clearIfEmpty(source.doc.parent);   // un tas au sol vidé disparaît (§3.8)
   return taken;
 }
 

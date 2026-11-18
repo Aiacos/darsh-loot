@@ -14,7 +14,7 @@ import {
   restockPlan, coinsFor, purseValue, fromItemPiles
 } from "../core/shop.mjs";
 import { drawItems } from "./treasure.mjs";
-import { moveItem } from "./drop.mjs";
+import { moveItemNow } from "./drop.mjs";
 
 /** La configuration (normalisée) du marchand que serait cet acteur. */
 export const merchantOf = actor => normalizeMerchant(actor?.getFlag(MODULE_ID, "merchant"));
@@ -144,17 +144,19 @@ export function quote(actor, token, buyer, cart={}) {
 /**
  * Exécute un troc dont le devis est bon — chez le MJ : les objets vendus rejoignent l'étal (empilés, marque de vol
  * ôtée, notés « rachetés »), les objets achetés passent au personnage (le stock infini ne baisse pas), les bourses
- * prennent leur valeur d'après solde.
+ * prennent leur valeur d'après solde. Le devis donne les bourses d'arrivée : il doit avoir été fait dans le même tour
+ * (`inTurn`, adapter/ledger.mjs) que cet appel, sur le marchand et le personnage — sinon une bourse qui a bougé entre
+ * les deux serait écrasée.
  */
 export async function executeDeal(actor, buyer, deal) {
   const merchant = merchantOf(actor);
   const names = { bought: [], sold: [] };
   const label = m => (m.quantity > 1 ? `${m.name} (${m.quantity})` : m.name);
   for ( const line of deal.sell ) {
-    names.sold.push(label(await moveItem(buyer, actor, line.id, line.quantity, { anyType: true, launder: true, shop: { bought: true } })));
+    names.sold.push(label(await moveItemNow(buyer, actor, line.id, line.quantity, { anyType: true, launder: true, shop: { bought: true } })));
   }
   for ( const line of deal.buy ) {
-    names.bought.push(label(await moveItem(actor, buyer, line.id, line.quantity, { copy: merchant.infiniteStock })));
+    names.bought.push(label(await moveItemNow(actor, buyer, line.id, line.quantity, { copy: merchant.infiniteStock })));
   }
   if ( deal.net !== 0 ) {
     await buyer.update({ "system.currency": deal.player });
