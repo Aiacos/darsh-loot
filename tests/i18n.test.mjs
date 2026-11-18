@@ -30,7 +30,8 @@ function flatten(obj, prefix="", out={}) {
 const EN = flatten(lang("en"));
 const FR = flatten(lang("fr"));
 const PT = flatten(lang("pt-BR"));
-const LANGS = { en: EN, fr: FR, "pt-BR": PT };
+const IT = flatten(lang("it"));
+const LANGS = { en: EN, fr: FR, "pt-BR": PT, it: IT };
 
 /** Une clé est une branche (pour LOCALIZATION_PREFIXES) si une feuille commence par elle. */
 const isBranch = (flat, key) => Object.keys(flat).some(k => k.startsWith(`${key}.`));
@@ -104,8 +105,8 @@ function usage() {
 }
 
 describe("traductions", () => {
-  it("fr a les mêmes clés que en ; pt-BR aucune en trop", () => {
-    for ( const [l, translation] of Object.entries({ fr: FR, "pt-BR": PT }) ) {
+  it("fr a les mêmes clés que en ; pt-BR et it aucune en trop", () => {
+    for ( const [l, translation] of Object.entries({ fr: FR, "pt-BR": PT, it: IT }) ) {
       expect(Object.keys(translation).filter(k => !(k in EN)), `clés en trop dans ${l}.json`).toEqual([]);
     }
     // Le portugais peut avoir du retard sur une clé neuve (Foundry montre alors l'anglais) ; le français, jamais.
@@ -120,7 +121,7 @@ describe("traductions", () => {
         expect(v.trim(), `${l} ${k}`).not.toBe("");
       }
     }
-    for ( const [l, translation] of Object.entries({ fr: FR, "pt-BR": PT }) ) {
+    for ( const [l, translation] of Object.entries({ fr: FR, "pt-BR": PT, it: IT }) ) {
       for ( const k of Object.keys(EN) ) if ( k in translation ) {
         expect(jokers(translation[k]), `${l} ${k}`).toEqual(jokers(EN[k]));
       }
@@ -165,7 +166,7 @@ describe("traductions", () => {
     }
   });
 
-  it("module.json déclare les trois langues", () => {
-    expect((manifest.languages ?? []).map(l => l.lang).sort()).toEqual(["en", "fr", "pt-BR"]);
+  it("module.json déclare les quatre langues", () => {
+    expect((manifest.languages ?? []).map(l => l.lang).sort()).toEqual(["en", "fr", "it", "pt-BR"]);
   });
 });

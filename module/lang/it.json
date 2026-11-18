@@ -1,0 +1,1151 @@
+{
+  "DLO": {
+    "Window": {
+      "Title": "Perquisizione: {name}",
+      "Corpse": "Cadavere",
+      "To": "Preso da {name}",
+      "Empty": "Niente da prendere.",
+      "TakeAll": "Prendi tutto",
+      "TakeCoins": "Prendi le monete",
+      "NoLooter": "Seleziona prima il tuo personaggio.",
+      "Container": "Contenitore",
+      "SearchCorpse": "Perquisisci il corpo",
+      "SearchContainer": "Perquisisci",
+      "OpenStore": "Scheda del contenuto"
+    },
+    "Hud": {
+      "Search": "Perquisisci il cadavere"
+    },
+    "Refus": {
+      "Introuvable": "Cadavere o personaggio non trovato.",
+      "PasCadavre": "Questa creatura non è un cadavere.",
+      "PasAToi": "Questo personaggio non ti appartiene.",
+      "MJSeul": "Solo il GM può perquisire i cadaveri.",
+      "Loin": "Troppo lontano: avvicinati per perquisire."
+    },
+    "Notice": {
+      "NoGM": "Nessun GM connesso: la perquisizione richiede un GM attivo.",
+      "Refused": "Impossibile: {reason}"
+    },
+    "Chat": {
+      "Took": "{looter} prende da {corpse}: {what}.",
+      "Stole": "{looter} ruba a {corpse}: {what}.",
+      "Caught": "{thief} ha tentato di derubare {victim} ed è stato scoperto (Rapidità di Mano {total} contro CD {dc}).",
+      "NpcStole": "{thief} ruba a {victim}: {what} (Rapidità di Mano {total} contro CD {dc}). Il giocatore non ha visto nulla.",
+      "NpcCaught": "{thief} ha tentato di rubare {what} a {victim} ed è stato scoperto (Rapidità di Mano {total} contro CD {dc})."
+    },
+    "Settings": {
+      "Reach": {
+        "Name": "Portata di perquisizione",
+        "Hint": "Distanza massima tra un personaggio e un cadavere per poterlo perquisire, in piedi (da bordo a bordo). Convertita nelle scene in metri: 5 ft = 1,5 m."
+      },
+      "WhoLoots": {
+        "Name": "Chi può perquisire i cadaveri",
+        "Hint": "I giocatori stessi, oppure solo il GM.",
+        "All": "Tutti",
+        "GM": "Solo il GM"
+      },
+      "Announce": {
+        "Name": "Annunciare ciò che viene preso",
+        "Hint": "Un messaggio in chat che elenca ciò che è stato preso da un cadavere.",
+        "GM": "Sussurrato al GM",
+        "All": "Pubblico",
+        "None": "Nessun messaggio"
+      },
+      "AutoTreasure": {
+        "Name": "Tirare il tesoro dei cadaveri",
+        "Hint": "Alla prima perquisizione di un cadavere, tira il suo tesoro individuale in base al GS (DMG 2024): monete, oppure gemme (Arcano) e oggetti d'arte (Reliquie) se il modulo della Guida del Dungeon Master è attivo. Una creatura senza preferenza di tesoro non ha nulla."
+      },
+      "Pockets": {
+        "Name": "Tasche degli umanoidi",
+        "Hint": "Gli umanoidi possono anche portare con sé qualche oggetto comune (razioni, candele, una torcia, un ninnolo…) del Manuale del Giocatore, oppure dell'SRD di dnd5e in sua assenza."
+      },
+      "TheftHostile": {
+        "Name": "Un ladro scoperto si fa dei nemici",
+        "Hint": "Quando un borseggio fallisce, il token della vittima diventa ostile. Altrimenti la vittima diventa soltanto diffidente e il GM viene avvisato."
+      },
+      "DropMode": {
+        "Name": "Posare oggetti a terra",
+        "Hint": "Trascinare un oggetto dalla scheda di un personaggio sulla mappa lo posa a terra (un mucchio di mezzo quadretto, che si raccoglie come un contenitore).",
+        "On": "Sì",
+        "Off": "No"
+      },
+      "DeleteStores": {
+        "Name": "Eliminare il deposito insieme al suo contenitore",
+        "Hint": "Eliminare dalla scena un contenitore o un mucchio (la sua regione o il suo tile) elimina anche l'attore creato per lui in «Bottino — contenitori». Disattivato: l'attore resta e va rimosso a mano."
+      },
+      "ThrownWeapons": {
+        "Name": "Le armi da lancio lasciano la mano",
+        "Hint": "Un'arma lanciata con il motore di combattimento lascia chi l'ha lanciata: se colpisce, una volta su due resta conficcata nel bersaglio (nel suo inventario, recuperabile alla sua morte), altrimenti cade ai suoi piedi; se manca, cade da 1 a 3 quadretti più in là, fermata dai muri."
+      },
+      "SearchRadius": {
+        "Name": "Raggio di ricerca",
+        "Hint": "Distanza in piedi coperta da «Cerca nei dintorni», fermata dai muri (convertita nelle scene in metri: 5 ft = 1,5 m). Un oggetto nascosto può richiedere una distanza minore."
+      },
+      "ClickToLoot": {
+        "Name": "Perquisizione con il clic sinistro",
+        "Hint": "Che cosa fa un clic sinistro su un cadavere, un forziere, un mucchio, un mercante o una trappola individuata, fuori dal combattimento. Mai: il clic resta quello di Foundry e il menu del clic destro propone «Perquisisci». A portata: il clic apre ciò che è a portata. Raggiungi: il personaggio cammina fino a portata, poi apre. Impostazione di questo computer. Le zone cliccabili (macro, scena, documento) si possono sempre cliccare.",
+        "Off": "Mai (clic destro)",
+        "Reach": "Solo a portata",
+        "Walk": "Raggiungi, poi apri"
+      },
+      "SearchMenu": {
+        "Name": "Proporre «Cerca nei dintorni»",
+        "Hint": "Aggiunge l'azione «Cerca nei dintorni» al menu contestuale del proprio token. Deselezionato: l'azione sparisce dal menu, ma gli oggetti nascosti si trovano comunque con la Percezione passiva. Utile soprattutto per il dungeon crawl."
+      },
+      "SearchCooldown": {
+        "Name": "Intervallo tra due ricerche",
+        "Hint": "Fuori dal combattimento, minuti (di tempo del mondo o di tempo reale, il primo che trascorre) prima che lo stesso personaggio possa usare di nuovo «Cerca nei dintorni» (0: nessun intervallo). In combattimento, la ricerca costa l'Azione."
+      },
+      "SearchDuration": {
+        "Name": "Durata di una ricerca",
+        "Hint": "Fuori dal combattimento, secondi reali di durata di «Cerca nei dintorni»: una barra di avanzamento per il giocatore, un ping attorno al token; muoversi la interrompe (0: immediata)."
+      },
+      "DisarmDuration": {
+        "Name": "Durata di un disinnesco",
+        "Hint": "Secondi reali di durata di «Disinnesca la trappola» prima del tiro: una barra di avanzamento per il giocatore, un ping e un rumore di attrezzi attorno al token; muoversi lo interrompe (0: immediato)."
+      },
+      "AdvancedTraps": {
+        "Name": "Modalità trappola avanzata",
+        "Hint": "Fuori dal combattimento, una trappola che scatta ferma i movimenti, mette il gioco in pausa (impostazione successiva) e avvia un combattimento con i personaggi dei giocatori presenti nella scena (i personaggi sono Sorpresi se nessuno l'aveva individuata); la trappola agisce alla propria Iniziativa (20 per impostazione predefinita). In combattimento, l'Iniziativa non viene ritirata. In entrambi i casi, nessun tiro automatico: il GM assegna a ogni creatura nell'area Vantaggio o Svantaggio, poi fa scattare la trappola. Disattivato: la trappola colpisce subito."
+      },
+      "TrapImmunities": {
+        "Name": "Trappole: immunità degli oggetti",
+        "Hint": "Un token trappola piazzato riceve le immunità di un oggetto (Guida del Dungeon Master): danni da veleno e psichici, e le condizioni che un oggetto non può subire (tutte tranne Invisibile). Quelle già presenti restano; non viene rimosso nulla se deselezioni l'opzione."
+      },
+      "ObjectSize": {
+        "Name": "Dimensione degli oggetti piazzati (%)",
+        "Hint": "I forzieri, i mucchi e le trappole piazzati dal modulo vengono disegnati al massimo a questa frazione dei loro quadretti, per lasciare un po' di spazio attorno. Solo visualizzazione: l'area di perquisizione o di attivazione mantiene i suoi quadretti. I tile della tua mappa trasformati in zona non cambiano."
+      },
+      "TrapPause": {
+        "Name": "Pausa quando scatta una trappola",
+        "Hint": "Modalità trappola avanzata, fuori dal combattimento: il gioco va in pausa quando scatta una trappola. Disattivato: nessuna pausa, si fermano solo i movimenti e inizia il combattimento della trappola."
+      },
+      "Pickpocket": {
+        "Name": "Borseggio",
+        "Hint": "I giocatori possono frugare nelle tasche dei PNG? Disattivato: la voce «Borseggia» sparisce e il GM rifiuta ogni tentativo. Consenso del GM: ogni visita alle tasche attende il suo consenso. I furti dei PNG del GM non dipendono da questa impostazione.",
+        "On": "Attivato",
+        "Off": "Disattivato",
+        "Approval": "Consenso del GM"
+      },
+      "NpcTheftNotice": {
+        "Name": "Il giocatore si accorge di un furto riuscito",
+        "Hint": "Quando un PNG riesce a derubare un personaggio, il suo giocatore riceve un messaggio privato. Altrimenti viene avvisato solo il GM."
+      }
+    },
+    "SettingsWindow": {
+      "Title": "DAS · Loot & Trade — impostazioni",
+      "Menu": {
+        "Name": "Impostazioni di DAS · Loot & Trade",
+        "Label": "Apri le impostazioni",
+        "Hint": "Perquisizione, bottino, contenitori e trappole, organizzati in schede."
+      },
+      "Tab": {
+        "search": "Perquisizione",
+        "loot": "Bottino e furti",
+        "containers": "Contenitori",
+        "traps": "Trappole"
+      },
+      "Tool": {
+        "tables": {
+          "Name": "Tabelle generiche dei contenitori",
+          "Hint": "Sette tabelle del bottino (forziere, barile, cassa, libreria, scrivania, altare, sacca da accampamento) in «Bottino — tabelle». Oggetti del Manuale del Giocatore, oppure gli stessi dell'SRD di dnd5e in sua assenza.",
+          "Button": "Crea le tabelle"
+        }
+      }
+    },
+    "Lock": {
+      "Locked": "Chiuso a chiave.",
+      "UseKey": "Apri con {name}",
+      "Pick": "Scassina la serratura (CD {dc})",
+      "GMOpen": "Sblocca (GM)",
+      "NoWay": "Non hai né la chiave né arnesi da scasso.",
+      "Failed": "La serratura resiste.",
+      "PickedCard": "{name} scassina la serratura: {source}.",
+      "PickFailCard": "{name} non riesce a scassinare la serratura: {source}.",
+      "KeyCard": "{name} apre {source} con {key}.",
+      "FloatUnlocked": "Sbloccato",
+      "FloatFailed": "Serratura: fallito"
+    },
+    "Container": {
+      "Folder": "Bottino — contenitori",
+      "ActorName": "Contenitore: {name}",
+      "ConvertMenu": "Converti in contenitore",
+      "Converted": "{name} è ora un contenitore (tile e regione)."
+    },
+    "ContainerBehavior": {
+      "Hoard": {
+        "None": "Nessuno",
+        "B0": "Tesoro accumulato GS 0–4",
+        "B5": "Tesoro accumulato GS 5–10",
+        "B11": "Tesoro accumulato GS 11–16",
+        "B17": "Tesoro accumulato GS 17+"
+      },
+      "FIELDS": {
+        "label": {
+          "label": "Nome",
+          "hint": "Mostrato nel titolo della finestra di perquisizione. Vuoto: il nome della regione."
+        },
+        "actor": {
+          "label": "Contenuto",
+          "hint": "L'attore Gruppo che custodisce il contenuto, creato automaticamente. Apri la sua scheda per trascinarvi oggetti e monete."
+        },
+        "table": {
+          "label": "Tabella",
+          "hint": "Tirata una sola volta, alla prima apertura del contenitore. Oggetti collegati, link @UUID a oggetti nel testo, oppure solo testo (diventa un oggetto «bottino»)."
+        },
+        "draws": {
+          "label": "Estrazioni",
+          "hint": "Quante volte si tira sulla tabella."
+        },
+        "hoard": {
+          "label": "Tesoro accumulato",
+          "hint": "Tesoro accumulato casuale (DMG 2024) di questa fascia di GS: monete e oggetti magici, tirati una sola volta alla prima apertura."
+        },
+        "theme": {
+          "label": "Tema del tesoro",
+          "hint": "Arcano: gemme; Reliquie: oggetti d'arte; oggetti magici tirati sulle tabelle di quel tema (Qualsiasi: 1d4 per oggetto)."
+        },
+        "rolled": {
+          "label": "Già tirato",
+          "hint": "Deseleziona per tirare di nuovo tabella e tesoro accumulato alla prossima apertura (si aggiunge al contenuto)."
+        },
+        "locked": {
+          "label": "Chiuso a chiave",
+          "hint": "Si apre con la chiave, con arnesi da scasso (prova di Destrezza) oppure per mano del GM."
+        },
+        "dc": {
+          "label": "CD della serratura",
+          "hint": "CD della prova con arnesi da scasso per scassinare la serratura."
+        },
+        "key": {
+          "label": "Chiave",
+          "hint": "Nome dell'oggetto che apre la serratura (senza distinzione tra maiuscole e minuscole)."
+        },
+        "sound": {
+          "label": "Suono",
+          "hint": "Il rumore del contenitore che si apre e della sua serratura, scelto tra i suoni delle porte. «Nessuno»: silenzioso."
+        },
+        "owner": {
+          "label": "Proprietario",
+          "hint": "A chi appartiene il contenuto. Se indicato, tutto ciò che viene preso è contrassegnato come rubato a quel nome."
+        }
+      },
+      "Sound": {
+        "None": "Nessuno"
+      }
+    },
+    "Tables": {
+      "Folder": "Bottino — tabelle",
+      "Nothing": "(niente)",
+      "chest": "Forziere",
+      "barrel": "Barile",
+      "crate": "Cassa",
+      "bookshelf": "Libreria",
+      "desk": "Scrivania",
+      "altar": "Altare",
+      "camp": "Sacca da accampamento",
+      "MenuName": "Tabelle generiche dei contenitori",
+      "MenuLabel": "Crea le tabelle",
+      "MenuHint": "Crea in questo mondo le tabelle generiche del bottino (forziere, barile, cassa, libreria, scrivania, altare, sacca da accampamento) con oggetti del Manuale del Giocatore (oppure gli stessi dell'SRD di dnd5e in sua assenza), nella cartella «Bottino — tabelle». Le tabelle già create vengono lasciate così come sono.",
+      "Created": "{count} tabella/e creata/e in «Bottino — tabelle».",
+      "NeedPHB": "Non sono disponibili né il Manuale del Giocatore né il compendio dell'equipaggiamento dell'SRD di dnd5e."
+    },
+    "Steal": {
+      "Title": "Borseggio: {name}",
+      "Someone": "Qualcuno",
+      "By": "Ladro: {name}",
+      "Purse": "Borsellino",
+      "Worn": "Indossato — impossibile da rubare",
+      "Heavy": "Troppo pesante — impossibile da rubare",
+      "Tried": "Già tentato",
+      "Difficulty": {
+        "easy": "Facile",
+        "medium": "Media",
+        "hard": "Difficile",
+        "veryHard": "Molto difficile"
+      },
+      "Hint": "Un solo tentativo per oggetto. Un fallimento viene notato.",
+      "Alert": "In guardia: tiene gli occhi aperti.",
+      "InCombat": "Non durante un combattimento.",
+      "AlreadyTried": "Ci hai già provato.",
+      "Impossible": "Questo non si può rubare.",
+      "Success": "Preso, e nessuno si è accorto di nulla.",
+      "Caught": "{name} ti ha colto con le mani nel sacco!",
+      "StolenFrom": "Rubato a {name}",
+      "Menu": "Borseggia",
+      "CaughtCard": "{victim} coglie {thief} con le mani nel sacco!",
+      "FloatCaught": "Scoperto!",
+      "FloatStolen": "Rubato",
+      "Disabled": "Il borseggio è disattivato in questo mondo.",
+      "NeedApproval": "Prima serve il consenso del GM.",
+      "MenuCombat": "{label} (fuori dal combattimento)",
+      "MenuNpc": "Ruba a {name}",
+      "ApprovalTitle": "Borseggio",
+      "ApprovalAsk": "{user} vuole che {thief} frughi nelle tasche di {victim}. Consentire?",
+      "ApprovalYes": "Consenti",
+      "ApprovalNo": "Rifiuta",
+      "ApprovalWait": "Richiesta inviata al GM…",
+      "ApprovalRefused": "Il GM rifiuta questo furto.",
+      "NpcTitle": "Ruba a {name}",
+      "Passive": "Percezione passiva {value}",
+      "Dc": "CD {dc}",
+      "TriedNpc": "Già tentato da questo PNG",
+      "PurseHandful": "Borsellino (una manciata: dal 10 al 40%)",
+      "Random": "A caso",
+      "NpcHint": "Tiro nascosto. Riuscito: il giocatore non ne sa nulla. Fallito: lo vede tutto il tavolo.",
+      "NothingLeft": "Non resta più nulla da tentare in queste tasche.",
+      "AlreadyTriedNpc": "Questo PNG ci ha già provato con questo oggetto.",
+      "NpcCaughtCard": "{victim} sorprende {thief} con una mano nelle sue tasche!",
+      "FloatNoticed": "Ehi!",
+      "NoticeVictim": "Senti che una mano ha frugato nelle tue tasche: {what}."
+    },
+    "Necro": {
+      "Hud": "Rianima il morto",
+      "DialogTitle": "Rianima {name}",
+      "DialogCaster": "Sotto il controllo di {name} (il token selezionato).",
+      "DialogNoCaster": "Nessun incantatore selezionato: il non morto non apparterrà a nessun giocatore.",
+      "Skeleton": "Scheletro",
+      "Zombie": "Zombi",
+      "Name": "{undead} ({name})",
+      "Remains": "Averi di {name}",
+      "Folder": "Non morti animati",
+      "Chat": "{caster} rianima {corpse}: {undead} si rialza.",
+      "Someone": "Qualcuno",
+      "NotRaisable": "Si può rianimare solo il cadavere di un umanoide di taglia Piccola o Media.",
+      "NeedMM": "Né il Manuale dei Mostri né il compendio delle creature dell'SRD di dnd5e contengono questo non morto."
+    },
+    "Drop": {
+      "QuantityTitle": "Posa: {name}",
+      "Quantity": "Quanti?",
+      "Confirm": "Posa",
+      "PileName": "Oggetti a terra",
+      "NotOnScene": "Il tuo personaggio non è in questa scena.",
+      "NotGear": "{item}: è un attacco di una creatura, non un oggetto — non viene posato nulla"
+    },
+    "Trade": {
+      "Title": "Scambio: {a} ⇄ {b}",
+      "YouGive": "{name} dà",
+      "YouGet": "{name} dà",
+      "Accepted": "d'accordo",
+      "Waiting": "non ancora d'accordo",
+      "DropHint": "Trascina qui gli oggetti dalla tua scheda.",
+      "Nothing": "Ancora niente.",
+      "Remove": "Rimuovi",
+      "Accept": "Accetta",
+      "Unaccept": "Ritira il mio accordo",
+      "Cancel": "Annulla lo scambio",
+      "Cancelled": "Scambio annullato da {name}.",
+      "Done": "Scambio concluso.",
+      "Over": "Questo scambio è terminato.",
+      "NotYours": "Puoi offrire solo gli oggetti del tuo personaggio.",
+      "NobodyThere": "Nessuno controlla {name} in questo momento.",
+      "Chat": "Scambio tra {a} e {b} — {a} dà: {gaveA}; {b} dà: {gaveB}.",
+      "Menu": "Scambia",
+      "Impossible": "Si può scambiare solo con il personaggio di un altro giocatore.",
+      "WindowFailed": "Impossibile aprire la finestra di scambio: {reason}"
+    },
+    "Shop": {
+      "Title": "Bottega: {name}",
+      "Menu": "Commercia",
+      "HudOpen": "Apri la bottega",
+      "HudMake": "Rendilo un mercante",
+      "Stall": "Banco",
+      "EmptyStall": "Niente in vendita.",
+      "NoBuyer": "Nessun personaggio",
+      "NothingToSell": "Niente da offrire.",
+      "YouGive": "Tu dai",
+      "YouGet": "Tu ricevi",
+      "YouPay": "Da pagare: {price}",
+      "YouEarn": "Il mercante ti deve: {price}",
+      "Even": "Baratto alla pari.",
+      "Deal": "Concludi",
+      "Clear": "Svuota",
+      "Done": "Affare fatto.",
+      "Hint": "Clic su un oggetto: un esemplare sul vassoio (Maiusc: l'intera pila). Clic sul vassoio: lo riprendi.",
+      "GMHint": "Clic destro su una merce per cambiarne lo stato: esposta ma non in vendita → nascosta → in vendita.",
+      "Configure": "Impostazioni",
+      "Restock": "Rifornisci",
+      "Sheet": "Scheda",
+      "Closed": "La bottega è chiusa.",
+      "ClosedTag": "(chiusa)",
+      "TooFar": "Troppo lontano: avvicinati al mercante.",
+      "NoFunds": "Non hai abbastanza denaro.",
+      "MerchantNoFunds": "Il mercante non ha abbastanza denaro: prendi qualcos'altro in cambio.",
+      "Refused": "Il mercante rifiuta questo oggetto rubato.",
+      "Fenced": "Oggetto rubato: acquistato a prezzo ribassato.",
+      "NotForSale": "Esposto, non in vendita.",
+      "Hidden": "Nascosto ai giocatori.",
+      "EndlessCoins": "Cassa senza fondo",
+      "Gone": "Mercante o personaggio non trovato.",
+      "Changed": "Le scorte o il tuo inventario sono cambiati: controlla il baratto.",
+      "Nothing": "Niente da scambiare.",
+      "Restocked": "{name}: rifornimento fatto ({count} oggetto/i estratto/i).",
+      "Chat": "{buyer} commercia con {merchant}.",
+      "ChatBought": "Compra: {what} ({price})",
+      "ChatSold": "Vende: {what} ({price})",
+      "ChatPaid": "Paga {price}.",
+      "ChatEarned": "Riceve {price}.",
+      "Show": "Mostra ai giocatori",
+      "Shown": "{name}: bottega mostrata a {count} giocatore/i."
+    },
+    "Merchant": {
+      "Title": "Mercante: {name}",
+      "Shop": "Bottega",
+      "Enabled": "Gestisce una bottega",
+      "EnabledHint": "I giocatori aprono la bottega con un clic sul suo token, fuori dal combattimento.",
+      "ClosedField": "Chiusa",
+      "Owner": "Proprietario",
+      "OwnerHint": "La bottega rifiuta tutto ciò che è stato rubato a questo nome.",
+      "Description": "Descrizione",
+      "Prices": "Prezzi",
+      "Buy": "Acquisto",
+      "BuyHint": "Quanto paga il giocatore: prezzo dell'oggetto × questo coefficiente.",
+      "Sell": "Vendita",
+      "SellHint": "Quanto dà il mercante: prezzo dell'oggetto × questo coefficiente (0,5: metà prezzo).",
+      "AttitudeField": "Atteggiamento",
+      "AttitudeHint": "Amichevole: 10% a favore del giocatore. Ostile: 20% a suo sfavore.",
+      "Attitude": {
+        "friendly": "Amichevole",
+        "indifferent": "Indifferente",
+        "hostile": "Ostile"
+      },
+      "SameAttitude": "Come per tutti",
+      "Stolen": "Oggetti rubati",
+      "StolenPolicy": {
+        "own": "Rifiuta ciò che gli è stato rubato",
+        "refuse": "Rifiuta qualsiasi oggetto rubato",
+        "fence": "Ricettatore: acquista a prezzo ribassato"
+      },
+      "FenceRate": "Ribasso del ricettatore",
+      "FenceRateHint": "Quota del prezzo di vendita pagata per un oggetto rubato.",
+      "Stock": "Scorte e cassa",
+      "InfiniteStock": "Scorte inesauribili",
+      "InfiniteCoins": "Cassa senza fondo",
+      "TablesHint": "Tabelle tirate a ogni rifornimento (ciò che era stato estratto viene rimosso prima).",
+      "DropTable": "Trascina qui una tabella",
+      "TableMissing": "Tabella non trovata",
+      "Rolls": "Numero di estrazioni (formula)",
+      "RemoveTable": "Rimuovi",
+      "Memorize": "Salva le scorte attuali come riferimento",
+      "MemorizeHint": "Il rifornimento riporterà le scorte fisse e la cassa al loro stato attuale.",
+      "Memorized": "Riferimento salvato ({count} oggetto/i).",
+      "Types": "Per tipo di oggetto",
+      "TypesHint": "Coefficienti moltiplicati per quelli del mercante (1: nessun effetto).",
+      "Characters": "Per personaggio",
+      "CharactersHint": "Atteggiamento nei suoi confronti e sconto in % (positivo: a suo favore).",
+      "Discount": "Sconto %",
+      "NoCharacters": "Nessun personaggio dei giocatori.",
+      "Save": "Salva",
+      "ItemPiles": "Questo attore è un mercante di Item Piles.",
+      "Convert": "Importa le sue impostazioni",
+      "Converted": "{name}: impostazioni di Item Piles importate.",
+      "Menu": "Impostazioni del mercante"
+    },
+    "Zone": {
+      "FIELDS": {
+        "label": {
+          "label": "Nome",
+          "hint": "Nome della zona. Vuoto: il nome del documento di destinazione, altrimenti quello della regione."
+        },
+        "reach": {
+          "label": "Richiedi la portata",
+          "hint": "Il personaggio deve essere a portata (impostazione «Portata di perquisizione»); se è fuori portata, prima ci arriva camminando. Deseleziona per una zona utilizzabile da lontano."
+        }
+      },
+      "NoMacro": "Questa zona non ha una macro.",
+      "NoScene": "Questa zona non porta a nessuna scena.",
+      "NoDocument": "Questa zona non apre nessun diario né alcuna pagina.",
+      "NoPermission": "Non hai il permesso di leggere questo documento.",
+      "GrantFailed": "Non è stato possibile condividere il documento con te."
+    },
+    "MacroZone": {
+      "Hint": "Un clic nella regione esegue una macro per chi clicca, anche senza permessi su di essa.",
+      "FIELDS": {
+        "macro": {
+          "label": "Macro",
+          "hint": "Eseguita per il giocatore che clicca, con i suoi permessi. Argomenti: speaker, actor, token, character, scope (behavior, region, looter)."
+        }
+      }
+    },
+    "SceneZone": {
+      "Hint": "Un clic nella regione mostra un'altra scena a chi clicca.",
+      "FIELDS": {
+        "targetScene": {
+          "label": "Scena",
+          "hint": "La scena mostrata a chi clicca."
+        },
+        "activateForAll": {
+          "label": "Attiva per tutti (GM)",
+          "hint": "Quando è il GM a cliccare, la scena viene attivata per tutto il tavolo invece di essere solo visualizzata da lui."
+        }
+      }
+    },
+    "DocumentZone": {
+      "Hint": "Un clic nella regione apre un diario o una pagina.",
+      "FIELDS": {
+        "document": {
+          "label": "Diario o pagina",
+          "hint": "UUID di un diario o di una delle sue pagine."
+        },
+        "grant": {
+          "label": "Concedi il permesso di lettura",
+          "hint": "Se il giocatore non può leggere il documento, il GM connesso gli concede il permesso Osservatore (definitivo)."
+        }
+      }
+    },
+    "TileZone": {
+      "HudTooltip": "Crea una zona DAS con la forma di questo tile",
+      "Title": "Tile → zona DAS",
+      "Type": "Tipo di zona",
+      "Name": "Nome",
+      "Macro": "Macro",
+      "Scene": "Scena",
+      "Document": "Diario",
+      "DocumentUuid": "…oppure UUID (pagina)",
+      "Grant": "Concedi il permesso di lettura",
+      "None": "— nessuna —",
+      "Create": "Crea",
+      "Hint": "La regione segue il contorno visibile dell'immagine (il suo rettangolo se l'immagine non può essere letta). Le altre impostazioni si aprono subito dopo.",
+      "NotOnCanvas": "Questo tile non è nella scena visualizzata.",
+      "DefaultName": "Zona",
+      "Traced": "Zona «{name}» ({type}) creata dal contorno dell'immagine.",
+      "Rectangle": "Zona «{name}» ({type}) creata sul rettangolo del tile: l'immagine non può essere letta.",
+      "Hidden": "Nascosta",
+      "Skill": "Abilità",
+      "Dc": "CD di individuazione",
+      "Actor": "Attore trappola",
+      "Activity": "Attività",
+      "FirstActivity": "In base al livello dei bersagli"
+    },
+    "Hidden": {
+      "FIELDS": {
+        "hidden": {
+          "enabled": {
+            "label": "Nascosta",
+            "hint": "Invisibile e inutilizzabile per i giocatori finché un personaggio non la trova (Percezione passiva passandole accanto, oppure «Cerca nei dintorni»). Fino ad allora i suoi tile sono nascosti e i suoi comportamenti di base disattivati."
+          },
+          "skill": {
+            "label": "Abilità",
+            "hint": "L'abilità che permette di trovarla: Percezione (azione Ricerca) o Indagare (azione Studio)."
+          },
+          "dc": {
+            "label": "CD di individuazione",
+            "hint": "Punteggio passivo o tiro di ricerca da raggiungere."
+          },
+          "passive": {
+            "label": "Distanza passiva",
+            "hint": "In piedi (convertita nelle scene in metri: 5 ft = 1,5 m): un personaggio che arriva a questa distanza, in linea di vista, la trova se il suo punteggio passivo raggiunge la CD. 0: nessuna individuazione passiva."
+          },
+          "radius": {
+            "label": "Raggio di ricerca",
+            "hint": "Distanza massima di una ricerca attiva, in piedi (l'impostazione del mondo, o meno: un ago si vede solo entro 5 ft)."
+          },
+          "found": {
+            "label": "Trovata",
+            "hint": "Togli la spunta per nasconderla di nuovo: tile e comportamenti tornano nascosti, i tentativi vengono cancellati."
+          },
+          "text": {
+            "label": "Testo di scoperta",
+            "hint": "Ciò che legge il giocatore che la trova. Vuoto: un testo generico (\"Noti un nascondiglio.\")."
+          }
+        }
+      },
+      "Search": "Cerca nei dintorni",
+      "Searching": "{name} cerca nei dintorni.",
+      "SearchingBar": "{name} sta cercando nei dintorni…",
+      "Interrupted": "{name} si è mosso: ricerca interrotta.",
+      "Nothing": "Non noti niente di particolare.",
+      "Found": {
+        "Cache": "Noti un nascondiglio.",
+        "Mechanism": "Noti un meccanismo.",
+        "Passage": "Noti un passaggio.",
+        "Inscription": "Noti un'iscrizione.",
+        "SecretDoor": "Noti una porta segreta.",
+        "Trap": "Noti una trappola.",
+        "Something": "Noti qualcosa.",
+        "TrapSource": "Noti da dove colpisce una trappola."
+      },
+      "Wall": {
+        "Legend": "DAS · Nascosto",
+        "Hint": "Porta segreta o muro etereo: una volta trovato con la Percezione passiva o con \"Cerca nei dintorni\", diventa una porta normale o smette di bloccare la vista.",
+        "Enabled": "Nascosto",
+        "Skill": "Abilità",
+        "Dc": "CD di individuazione",
+        "Passive": "Distanza passiva",
+        "Radius": "Raggio di ricerca",
+        "Found": "Trovato",
+        "Text": "Testo di scoperta"
+      },
+      "Cooldown": "{name} ha appena cercato: aspetta ancora {minutes} minuto/i di tempo di gioco prima di cercare di nuovo.",
+      "Budget": {
+        "notYourTurn": "non è il turno di {name}",
+        "noAction": "{name} non ha più l'Azione in questo turno",
+        "noBonus": "{name} non ha più l'Azione Bonus",
+        "noReaction": "{name} non ha più la Reazione"
+      },
+      "FoundCard": "{name} nota qualcosa.",
+      "NothingCard": "{name} non nota niente di particolare.",
+      "FloatFound": "Trovato!",
+      "FloatNothing": "Niente"
+    },
+    "TrapZone": {
+      "Hint": "Da collocare sull'area d'effetto della trappola (il corridoio spazzato dalle fiamme, o la piastra stessa): contiene l'intera trappola. Un token che entra nel suo innesco (questa regione, o un'altra scelta sulla mappa) la fa scattare: l'attore trappola usa la sua attività sui token nell'area d'effetto (risolta dal motore di combattimento). Innesco e origine si individuano separatamente; un innesco individuato appare in rosso e il calcolo del percorso del motore di combattimento lo evita, un'origine individuata appare in rosso con l'area d'effetto in arancione; l'uno o l'altra si disinnescano con un clic (arnesi da scasso).",
+      "FIELDS": {
+        "actor": {
+          "label": "Attore trappola",
+          "hint": "L'attore che \"lancia\" la trappola (una trappola del DMG 2024, o un PNG fatto in casa), senza token sulla mappa."
+        },
+        "activity": {
+          "label": "Attività",
+          "hint": "Quella usata dalla trappola. “In base al livello dei bersagli”: una trappola del DMG 2024 ha un'attività per fascia di livello (1–4, 5–10…); quando scatta viene scelta quella che comprende il livello dei bersagli (il personaggio di livello più alto, altrimenti il GS più alto), in mancanza la prima."
+        },
+        "triggerRegion": {
+          "label": "Innesco",
+          "hint": "La regione in cui deve entrare un token (la piastra a pressione), scelta sulla mappa. Vuoto: questa regione."
+        },
+        "minSize": {
+          "label": "Taglia minima",
+          "hint": "La creatura più piccola che la fa scattare. Piccola per impostazione predefinita: un ratto o un famiglio Minuscolo ci passano sopra."
+        },
+        "height": {
+          "label": "Altezza",
+          "hint": "Al di sopra del pavimento dell'area (unità della scena), un token non la fa scattare: una creatura in volo passa. 0: solo ciò che tocca il pavimento."
+        },
+        "source": {
+          "label": "Origine",
+          "hint": "Da dove parte l'effetto (i fori nel muro, la statua).",
+          "uuid": {
+            "label": "Origine",
+            "hint": "Una regione o una tile della scena, scelta sulla mappa. Vuoto: l'innesco stesso. Una volta individuata, mostra anche l'area d'effetto."
+          },
+          "hidden": {
+            "label": "Origine nascosta",
+            "enabled": {
+              "label": "Nascosta",
+              "hint": "L'origine non si vede finché un personaggio non la trova (Percezione passiva, o \"Cerca nei dintorni\"). Ha una CD propria: trovare l'origine non fa trovare il resto."
+            },
+            "skill": {
+              "label": "Abilità",
+              "hint": "Quella che la trova: Percezione o Indagare."
+            },
+            "dc": {
+              "label": "CD di individuazione",
+              "hint": "Punteggio passivo o tiro di ricerca da raggiungere."
+            },
+            "passive": {
+              "label": "Distanza passiva",
+              "hint": "In piedi (convertita nelle scene in metri). 0: nessuna individuazione passiva."
+            },
+            "radius": {
+              "label": "Raggio di ricerca",
+              "hint": "Distanza massima di una ricerca attiva, in piedi."
+            },
+            "found": {
+              "label": "Trovata",
+              "hint": "Togli la spunta per nasconderla di nuovo; i tentativi vengono cancellati."
+            },
+            "text": {
+              "label": "Testo di scoperta",
+              "hint": "Ciò che legge il giocatore che la trova. Vuoto: un testo generico."
+            }
+          }
+        },
+        "initiative": {
+          "label": "Iniziativa",
+          "hint": "Il suo posto nell'ordine di Iniziativa in modalità trappole avanzata: 20 per impostazione predefinita, meno per una trappola lenta (un soffitto che scende)."
+        },
+        "armed": {
+          "label": "Armata",
+          "hint": "Rimetti la spunta per riarmare la trappola a mano."
+        },
+        "rearm": {
+          "label": "Riarmo"
+        },
+        "delay": {
+          "label": "Ritardo di riarmo",
+          "hint": "In minuti di tempo del mondo (calendario), per \"Dopo un certo tempo\"."
+        },
+        "triggeredAt": {
+          "label": "Scattata alle",
+          "hint": "Tempo del mondo dell'ultima volta in cui è scattata (compilato automaticamente)."
+        },
+        "disarmDc": {
+          "label": "CD per disinnescare",
+          "hint": "Prova con gli arnesi da scasso."
+        },
+        "failure": {
+          "label": "Disinnesco fallito"
+        },
+        "disarmed": {
+          "label": "Disinnescata",
+          "hint": "Togli la spunta per rimetterla in funzione (spunta anche \"Armata\")."
+        },
+        "effectRegion": {
+          "label": "Area d'effetto (0.16.0)",
+          "hint": "Lasciata dalla versione 0.16.0, quando la trappola era collocata sulla sua piastra: letta una sola volta per spostare la trappola su quest'area."
+        },
+        "hidden": {
+          "label": "Innesco nascosto",
+          "hint": "Come si trova l'innesco (la piastra). L'origine ha una propria individuazione."
+        },
+        "activation": {
+          "label": "Attivazione",
+          "hint": "Ciò che fa scattare la trappola: un token che entra nell'innesco (una piastra a pressione), un clic sull'innesco (una leva o un pulsante con trappola: cursore a mano, entro la portata), o entrambi. Con il clic, l'innesco resta visibile ai giocatori; solo la trappola è nascosta."
+        }
+      },
+      "Rearm": {
+        "Never": "Mai",
+        "Gm": "A mano (GM)",
+        "Time": "Dopo un certo tempo"
+      },
+      "Failure": {
+        "Nothing": "Niente",
+        "Trigger": "La trappola scatta"
+      },
+      "Disarmed": "Trappola disinnescata.",
+      "DisarmFailed": "Il tentativo di disinnesco fallisce.",
+      "DisarmFired": "Fallito: la trappola scatta!",
+      "Disarming": "{name} sta disinnescando {trap}…",
+      "DisarmStart": "{name} tenta di disinnescare {trap}.",
+      "DisarmInterrupted": "{name} si è mosso: disinnesco interrotto.",
+      "DisarmCard": "{name} disinnesca {trap}.",
+      "DisarmFailCard": "{name} non riesce a disinnescare {trap}.",
+      "DisarmFireCard": "{name} fa scattare {trap} nel tentativo di disinnescarla!",
+      "FloatDisarmed": "Disinnescata",
+      "FloatFailed": "Fallito",
+      "FloatFired": "Scattata!",
+      "ConfirmTitle": "Disinnesca la trappola",
+      "ConfirmText": "Tentare di disinnescare {trap}? {name} effettuerà una prova con gli arnesi da scasso.",
+      "ConfirmYes": "Tenta",
+      "ConfirmNo": "Rinuncia",
+      "ThisTrap": "questa trappola",
+      "Activation": {
+        "enter": "Quando vi entra un token",
+        "click": "Al clic (leva, pulsante)",
+        "both": "Entrambi"
+      }
+    },
+    "TrapRelay": {
+      "Name": "DAS · Innesco di trappola",
+      "Hint": "Aggiunto da DAS · Loot & Trade alla regione scelta come innesco di una trappola: un token che vi entra fa scattare quella trappola. Niente da impostare.",
+      "FIELDS": {
+        "trap": {
+          "label": "Trappola",
+          "hint": "Il comportamento DAS · Trappola che questa regione fa scattare."
+        }
+      }
+    },
+    "TrapWindow": {
+      "Title": "Trappola: {name}",
+      "HintSave": "La trappola colpisce. Per ogni creatura nella sua area, favorisci il suo tiro salvezza (Vantaggio) oppure no (Svantaggio) in base a come hanno giocato i giocatori, oppure rimuovila; poi attivala.",
+      "HintAttack": "La trappola colpisce. Per ogni creatura nella sua area, favoriscila (il tiro per colpire della trappola contro di lei ha Svantaggio) oppure no (Vantaggio) in base a come hanno giocato i giocatori, oppure rimuovila; poi attivala.",
+      "Nobody": "Non c'è più nessuno nell'area d'effetto.",
+      "Advantage": "Vantaggio",
+      "Normal": "Normale",
+      "Disadvantage": "Svantaggio",
+      "Tier": "Fascia di livello",
+      "Fire": "Attiva la trappola",
+      "Cancel": "Annulla la trappola",
+      "Surprised": "Sorpreso",
+      "SurprisedHint": "Colto alla sprovvista: nessuno aveva individuato la trappola (Svantaggio all'Iniziativa). Tienine conto per il suo tiro salvezza."
+    },
+    "Pack": {
+      "Outils": "DAS · Loot & Trade · Strumenti del GM"
+    },
+    "Macro": {
+      "ConvertItemPiles": {
+        "NeedModule": "È richiesto DAS · Loot & Trade (darsh-loot) 0.13.0 o successivo (il modulo è attivo?).",
+        "GMOnly": "Solo per il GM.",
+        "Title": "Importazione dei mercanti di Item Piles",
+        "Intro": "“Resoconto” non modifica nulla: elenca i mercanti che verrebbero importati.",
+        "Report": "Resoconto",
+        "Convert": "Importa",
+        "NoneFound": "<strong>Mercanti di Item Piles</strong>: nessuno in questo mondo, niente da fare.",
+        "SummaryDry": "Mercanti di Item Piles — resoconto, nulla è stato modificato: {count} su {total} da importare",
+        "Summary": "Mercanti di Item Piles importati: {count} su {total}",
+        "StatusDone": "importato",
+        "StatusTodo": "da importare",
+        "StatusAlready": "già fatto",
+        "ColumnMerchant": "Mercante",
+        "ColumnGoods": "Merce",
+        "ColumnHidden": "Nascosti",
+        "ColumnNotForSale": "In esposizione",
+        "ColumnTables": "Tabelle",
+        "ColumnTill": "Cassa",
+        "NotifyDry": "{count} mercante/i da importare — riepilogo in chat.",
+        "Notify": "{count} mercante/i importato/i — riepilogo in chat."
+      }
+    },
+    "TrappedTrap": {
+      "FIELDS": {
+        "trap": {
+          "label": "Contenitore con trappola",
+          "hint": "Una trappola che scatta quando si apre il contenitore, o quando si fallisce nello scassinarne la serratura.",
+          "enabled": {
+            "label": "Con trappola",
+            "hint": "Il contenitore ha una trappola."
+          },
+          "actor": {
+            "label": "Attore trappola",
+            "hint": "L'attore che \"lancia\" la trappola (una trappola del DMG 2024, o un PNG fatto in casa), senza token sulla mappa."
+          },
+          "activity": {
+            "label": "Attività",
+            "hint": "Quella usata dalla trappola. “In base al livello dei bersagli”: la fascia di livello del DMG 2024 che comprende il livello dei bersagli, in mancanza la prima."
+          },
+          "effectRegion": {
+            "label": "Area d'effetto",
+            "hint": "UUID di una regione della scena, anche altrove (il muro dei dardi dall'altra parte della stanza, il corridoio in cui si diffonde il gas). Vuoto: solo chi apre."
+          },
+          "trigger": {
+            "label": "Scatta",
+            "hint": "All'apertura (il coperchio sollevato, la serratura che cede), allo scasso fallito, o entrambi."
+          },
+          "armed": {
+            "label": "Armata",
+            "hint": "Rimetti la spunta per riarmare la trappola a mano."
+          },
+          "rearm": {
+            "label": "Riarmo"
+          },
+          "delay": {
+            "label": "Ritardo di riarmo",
+            "hint": "In minuti di tempo del mondo (calendario), per \"dopo un certo tempo\"."
+          },
+          "triggeredAt": {
+            "label": "Scattata alle",
+            "hint": "Tempo del mondo dell'ultima volta in cui è scattata (compilato automaticamente)."
+          },
+          "disarmDc": {
+            "label": "CD per disinnescare",
+            "hint": "Prova con gli arnesi da scasso."
+          },
+          "failure": {
+            "label": "Disinnesco fallito"
+          },
+          "disarmed": {
+            "label": "Disinnescata",
+            "hint": "Togli la spunta per rimetterla in funzione (spunta anche \"Armata\")."
+          },
+          "hidden": {
+            "label": "Trappola nascosta",
+            "enabled": {
+              "label": "Nascosta",
+              "hint": "La trappola non si vede finché un personaggio non la trova (Percezione passiva, o \"Cerca nei dintorni\"). Una volta trovata, il contenitore brilla di rosso e aprirlo chiede prima: disinnescare, aprire comunque o rinunciare."
+            },
+            "skill": {
+              "label": "Abilità",
+              "hint": "Quella che la trova: Percezione o Indagare."
+            },
+            "dc": {
+              "label": "CD di individuazione",
+              "hint": "Punteggio passivo o tiro di ricerca da raggiungere."
+            },
+            "passive": {
+              "label": "Distanza passiva",
+              "hint": "In piedi (convertita nelle scene in metri). 0: nessuna individuazione passiva."
+            },
+            "radius": {
+              "label": "Raggio di ricerca",
+              "hint": "Distanza massima di una ricerca attiva, in piedi (un ago si vede solo entro 5 ft)."
+            },
+            "found": {
+              "label": "Trovata",
+              "hint": "Togli la spunta per nasconderla di nuovo; i tentativi vengono cancellati."
+            },
+            "text": {
+              "label": "Testo di scoperta",
+              "hint": "Ciò che legge il giocatore che la trova. Vuoto: \"Noti una trappola.\""
+            }
+          },
+          "minSize": {
+            "label": "Taglia minima",
+            "hint": "La creatura più piccola che la fa scattare aprendolo. Piccola per impostazione predefinita."
+          },
+          "initiative": {
+            "label": "Iniziativa",
+            "hint": "Il suo posto nell'ordine di Iniziativa in modalità trappole avanzata (20 per impostazione predefinita)."
+          },
+          "source": {
+            "label": "Origine",
+            "hint": "Da dove parte l'effetto, se non dal contenitore stesso.",
+            "uuid": {
+              "label": "Origine",
+              "hint": "Una regione o una tile della scena, scelta sulla mappa. Vuoto: il contenitore stesso."
+            },
+            "hidden": {
+              "label": "Origine nascosta",
+              "enabled": {
+                "label": "Nascosta",
+                "hint": "L'origine non si vede finché un personaggio non la trova (Percezione passiva, o \"Cerca nei dintorni\"). Ha una CD propria: trovare l'origine non fa trovare il resto."
+              },
+              "skill": {
+                "label": "Abilità",
+                "hint": "Quella che la trova: Percezione o Indagare."
+              },
+              "dc": {
+                "label": "CD di individuazione",
+                "hint": "Punteggio passivo o tiro di ricerca da raggiungere."
+              },
+              "passive": {
+                "label": "Distanza passiva",
+                "hint": "In piedi (convertita nelle scene in metri). 0: nessuna individuazione passiva."
+              },
+              "radius": {
+                "label": "Raggio di ricerca",
+                "hint": "Distanza massima di una ricerca attiva, in piedi."
+              },
+              "found": {
+                "label": "Trovata",
+                "hint": "Togli la spunta per nasconderla di nuovo; i tentativi vengono cancellati."
+              },
+              "text": {
+                "label": "Testo di scoperta",
+                "hint": "Ciò che legge il giocatore che la trova. Vuoto: un testo generico."
+              }
+            }
+          }
+        }
+      },
+      "Trigger": {
+        "Open": "All'apertura",
+        "Pick": "Allo scasso fallito",
+        "Both": "Entrambi"
+      },
+      "ThisDoor": "questa porta",
+      "ThisContainer": "questo contenitore",
+      "GateTitle": "Trappola individuata",
+      "GateText": "{name} ha una trappola. Che cosa fai?",
+      "GateDisarm": "Disinnesca",
+      "GateOpen": "Apri comunque",
+      "Disarm": "Disinnesca la trappola",
+      "Door": {
+        "Legend": "DAS · Porta con trappola",
+        "Hint": "Per una porta: una trappola che scatta quando si apre (clic sulla porta o menu del motore), e / o quando si fallisce nello scassinarne la serratura. Senza area d'effetto, colpisce solo chi la apre.",
+        "Enabled": "Con trappola",
+        "Actor": "Attore trappola (UUID, o trascina un attore)",
+        "Activity": "Attività",
+        "EffectRegion": "Area d'effetto (UUID di una regione, vuoto: chi apre)",
+        "Trigger": "Scatta",
+        "Armed": "Armata",
+        "Rearm": "Riarmo",
+        "Delay": "Ritardo di riarmo (minuti)",
+        "DisarmDc": "CD per disinnescare (arnesi da scasso)",
+        "Failure": "Disinnesco fallito",
+        "Disarmed": "Disinnescata",
+        "HiddenEnabled": "Trappola nascosta",
+        "MinSize": "Taglia minima (creatura più piccola che la fa scattare)",
+        "Initiative": "Iniziativa (modalità avanzata)",
+        "Source": "Origine (UUID di una regione o di una tile, vuoto: la porta)",
+        "SourceHidden": "Origine nascosta"
+      },
+      "Token": {
+        "Legend": "DAS · Trappola",
+        "Hint": "Questa creatura è una trappola (una trappola del DMG 2024, o qualsiasi PNG spuntato qui). Il suo token collocato è la trappola: nascosto ai giocatori, scatta quando una creatura cammina sulle sue caselle (o sull'innesco scelto più in basso), colpendo le creature nelle sue caselle (o nell'area d'effetto scelta più in basso). Definite sul token prototipo, queste impostazioni vengono copiate su ogni token collocato; ogni token collocato conserva il proprio stato.",
+        "TriggerRegion": "Innesco (UUID di una regione; vuoto: le caselle del token)",
+        "EffectRegion": "Area d'effetto (UUID di una regione; vuoto: le caselle del token)",
+        "Height": "Altezza (una creatura che vola più in alto passa)",
+        "Source": "Origine (UUID di una regione o di una tile; vuoto: il token quando l'innesco è altrove)",
+        "HiddenEnabled": "Innesco nascosto",
+        "SourceHidden": "Origine nascosta (il token, quando l'innesco è altrove)",
+        "Region": "{name} (DAS · Trappola)"
+      },
+      "ThisLever": "questa leva",
+      "GateTextUse": "Hai individuato una trappola su {name}. Che cosa fai?",
+      "GateUse": "Aziona comunque"
+    },
+    "Pick": {
+      "Button": "Scegli sulla mappa",
+      "PromptRegion": "Clicca una regione sulla mappa (clic destro o Esc: annulla).",
+      "PromptTile": "Clicca una regione o una tile sulla mappa (clic destro o Esc: annulla).",
+      "Nothing": "Niente da scegliere qui.",
+      "PromptDoor": "Clicca una porta sulla mappa (clic destro o Esc: annulla).",
+      "PromptLight": "Clicca una fonte di luce sulla mappa (clic destro o Esc: annulla).",
+      "PromptTrap": "Clicca la regione di una trappola o un token trappola sulla mappa (clic destro o Esc: annulla)."
+    },
+    "TrapMenu": {
+      "Fire": "Fai scattare la trappola",
+      "Reset": "Reimposta la trappola",
+      "ResetDone": "{name}: reimpostata (armata, di nuovo nascosta).",
+      "GmDisarm": "Disinnesca (GM, senza tiro)",
+      "Reveal": "Mostra la trappola ai giocatori",
+      "Conceal": "Nascondi la trappola ai giocatori",
+      "Configure": "Impostazioni della trappola"
+    },
+    "TrapSections": {
+      "SheetTrap": "DAS · Trappola (a sezioni)",
+      "SheetContainer": "DAS · Contenitore (a sezioni)",
+      "Trap": {
+        "Legend": "Trappola",
+        "Hint": "Ciò che colpisce: l'attore trappola (una trappola del DMG 2024, o un PNG fatto in casa), la sua attività, il suo posto nell'ordine di Iniziativa."
+      },
+      "Area": {
+        "Legend": "Area d'effetto",
+        "Hint": "Chi viene colpito: le creature all'interno di questa regione quando la trappola scatta."
+      },
+      "AreaChest": {
+        "Hint": "Chi viene colpito: chi apre; oppure, se è stata scelta una regione, le creature al suo interno (il muro dei dardi di fronte)."
+      },
+      "AreaToken": {
+        "Hint": "Chi viene colpito: le creature nelle caselle del token; oppure, se è stata scelta una regione, quelle al suo interno."
+      },
+      "AreaDoor": {
+        "Hint": "Chi viene colpito: chi apre; oppure, se è stata scelta una regione, le creature al suo interno."
+      },
+      "Source": {
+        "Legend": "Origine",
+        "Hint": "Da dove parte l'effetto (i fori nel muro, la statua) — una regione o una tile — e come la si trova. Vuoto: l'innesco."
+      },
+      "Trigger": {
+        "Legend": "Innesco",
+        "Hint": "Ciò che la fa scattare: un token che entra nella regione scelta (la piastra a pressione; vuoto: questa regione), la sua taglia, la sua altezza — e come si trova l'innesco."
+      },
+      "TriggerChest": {
+        "Hint": "Ciò che la fa scattare: aprire il forziere, fallire nello scassinare la serratura, o entrambi — e come si trova la trappola."
+      },
+      "TriggerToken": {
+        "Hint": "Ciò che la fa scattare: un token che entra nelle caselle del token (o nella regione scelta), la sua taglia, la sua altezza — e come la si trova."
+      },
+      "TriggerDoor": {
+        "Hint": "Ciò che la fa scattare: aprire la porta, fallire nello scassinare la serratura, o entrambi — e come si trova la trappola."
+      },
+      "Arming": {
+        "Legend": "Armamento e disinnesco",
+        "Hint": "Armata o no, riarmo, CD per disinnescare (arnesi da scasso) e cosa comporta un fallimento."
+      },
+      "Contents": {
+        "Legend": "Contenuto",
+        "Hint": "Ciò che contiene: la sua scorta, la sua tabella o il suo tesoro tirato una sola volta, il suo proprietario (ciò che vi si prende è rubato)."
+      },
+      "Lock": {
+        "Legend": "Serratura",
+        "Hint": "Chiuso a chiave o no, CD per scassinare, chiave (nome o identificatore dell'oggetto)."
+      },
+      "Cache": {
+        "Legend": "Nascondiglio",
+        "Hint": "Il contenitore stesso nascosto, e come lo si trova."
+      },
+      "ActivityAuto": "In base al livello dei bersagli",
+      "ActivityMissing": "Non trovata ({id})"
+    },
+    "Timer": {
+      "Search": "Ricerca…",
+      "Disarm": "Disinnesco…"
+    },
+    "MechanismZone": {
+      "Hint": "Una leva, un pulsante o una piastra a pressione: al clic (entro la portata) o quando vi entra un token, il GM attivo esegue le sue azioni — aprire o chiudere a chiave una porta, accendere una luce, mostrare una tile, riprodurre un suono, far scattare una trappola, eseguire una macro. A due posizioni, ogni utilizzo annulla il precedente.",
+      "Sheet": "DAS · Meccanismo (azioni)",
+      "Activation": {
+        "click": "Al clic",
+        "enter": "Quando vi entra un token",
+        "both": "Entrambi"
+      },
+      "Mode": {
+        "toggle": "A due posizioni",
+        "once": "Una sola volta",
+        "always": "Ogni volta"
+      },
+      "FIELDS": {
+        "activation": {
+          "label": "Attivazione",
+          "hint": "Al clic: una leva, un pulsante (cursore a mano, entro la portata). Quando vi entra un token: una piastra a pressione. Entrambi: una piastra che si può anche premere a mano."
+        },
+        "minSize": {
+          "label": "Taglia minima",
+          "hint": "Per una piastra a pressione: la creatura più piccola che la preme (un ratto no)."
+        },
+        "mode": {
+          "label": "Funzionamento",
+          "hint": "A due posizioni: ogni utilizzo inverte le azioni (la porta aperta si richiude; una trappola non scatta di nuovo). Una sola volta: dopo, non succede nulla. Ogni volta: le stesse azioni."
+        },
+        "active": {
+          "label": "Azionato",
+          "hint": "La posizione della leva (a due posizioni). Togli la spunta: la rimetti a posto senza eseguire le sue azioni."
+        },
+        "used": {
+          "label": "Già usato",
+          "hint": "Per un meccanismo che funziona una sola volta. Togli la spunta per renderlo di nuovo utilizzabile."
+        },
+        "tile": {
+          "label": "Tile della leva",
+          "hint": "La tile che mostra il meccanismo; vuoto: la tile collocata nella regione. La sua immagine segue la posizione della leva."
+        },
+        "imageOff": {
+          "label": "Immagine a riposo",
+          "hint": "L'immagine della tile con la leva alzata (vuoto: l'immagine che la tile aveva all'inizio)."
+        },
+        "imageOn": {
+          "label": "Immagine da azionato",
+          "hint": "L'immagine della tile con la leva abbassata (vuoto: la tile non cambia)."
+        },
+        "sound": {
+          "label": "Suono",
+          "hint": "Riprodotto per tutto il tavolo a ogni utilizzo (vuoto: un rumore di leva)."
+        }
+      },
+      "Actions": {
+        "Legend": "Azioni",
+        "Hint": "Ciò che fa il meccanismo, in ordine. Scegli ogni bersaglio sulla mappa (mirino); trascina una macro sul suo campo.",
+        "Add": "Aggiungi un'azione",
+        "Remove": "Rimuovi",
+        "Browse": "Scegli un file",
+        "Volume": "Volume",
+        "TypeLabel": "Tipo di azione",
+        "ModeLabel": "Effetto",
+        "Missing": "non trovato",
+        "Door": "Porta",
+        "Light": "Luce",
+        "MacroHint": "Trascina una macro sul campo, o incolla il suo UUID.",
+        "NoTrap": "Nessuna trappola qui: clicca una regione « DAS · Trappola » o un token trappola.",
+        "Type": {
+          "door": "Porta",
+          "light": "Luce",
+          "tile": "Tile",
+          "sound": "Suono",
+          "trap": "Trappola",
+          "macro": "Macro"
+        },
+        "Mode": {
+          "open": "Aprire",
+          "close": "Chiudere",
+          "toggle": "Alternare",
+          "lock": "Chiudere a chiave",
+          "unlock": "Sbloccare",
+          "on": "Accendere",
+          "off": "Spegnere",
+          "show": "Mostrare",
+          "hide": "Nascondere",
+          "play": "Riprodurre",
+          "fire": "Far scattare",
+          "gm": "Eseguire per il GM",
+          "user": "Eseguire per chi lo aziona"
+        }
+      }
+    },
+    "Mechanism": {
+      "ThisLever": "questo meccanismo",
+      "UseCard": "{name} aziona {thing}.",
+      "EnterCard": "Una piastra sprofonda sotto {name}: {thing}.",
+      "NothingCard": "{name} aziona {thing}: non succede nulla.",
+      "FloatUse": "Azionato",
+      "FloatEnter": "Clac!",
+      "FloatNothing": "Non succede nulla",
+      "Use": "Aziona: {name}",
+      "Reset": "Reimposta: {name}",
+      "Configure": "Impostazioni: {name}",
+      "ResetDone": "{name} è tornato nella sua posizione iniziale."
+    }
+  },
+  "TYPES": {
+    "RegionBehavior": {
+      "darsh-loot.container": "DAS · Contenitore",
+      "darsh-loot.macro": "DAS · Macro al clic",
+      "darsh-loot.scene": "DAS · Verso una scena",
+      "darsh-loot.document": "DAS · Apri un documento",
+      "darsh-loot.trap": "DAS · Trappola",
+      "darsh-loot.trapTrigger": "DAS · Innesco di trappola",
+      "darsh-loot.mechanism": "DAS · Meccanismo"
+    }
+  }
+}
