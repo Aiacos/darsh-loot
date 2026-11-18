@@ -36,7 +36,7 @@ export function pileCenter(region) {
 /**
  * Chez le MJ, au chargement : les tas posés par une version antérieure (tuile décalée avant la 0.7.1, tas centré sur
  * sa case en 0.7.1–0.7.2) sont remis à leur place, le **quart haut-gauche** de la case où ils sont (0.7.3) : région et
- * tuile.
+ * tuile. Et un tas resté transparent (révélation manquée) est révélé.
  */
 export async function realignPiles() {
   for ( const scene of game.scenes ) {
@@ -44,6 +44,7 @@ export async function realignPiles() {
     const half = (size * PILE_FRACTION) / 2;
     const tiles = [];
     const regions = [];
+    const unseen = [];
     for ( const region of scene.regions ) {
       if ( !isPileRegion(region) ) continue;
       const spot = pileSpot(scene.grid.getTopLeftPoint(pileCenter(region)), size);
@@ -57,9 +58,13 @@ export async function realignPiles() {
       if ( tile && ((tile.x !== x) || (tile.y !== y) || (tile.texture.anchorX !== 0.5) || (tile.texture.anchorY !== 0.5)) ) {
         tiles.push({ _id: tile.id, x, y, "texture.anchorX": 0.5, "texture.anchorY": 0.5 });
       }
+      // Un tas naît transparent et n'est révélé qu'à la fin du vol, par le MJ : s'il a rechargé ou s'est déconnecté
+      // entre-temps, le tas est resté invisible pour tout le monde.
+      if ( tile?.alpha === 0 ) unseen.push({ _id: tile.id, alpha: 1 });
     }
     if ( regions.length ) await scene.updateEmbeddedDocuments("Region", regions);
     if ( tiles.length ) await scene.updateEmbeddedDocuments("Tile", tiles);
+    if ( unseen.length ) await scene.updateEmbeddedDocuments("Tile", unseen);
   }
 }
 
