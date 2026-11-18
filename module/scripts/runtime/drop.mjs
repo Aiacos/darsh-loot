@@ -106,6 +106,9 @@ async function handleDrop(payload, { user }) {
   return { region: region.uuid, quantity };
 }
 
+/** Les tas en cours de création, par case (scène, niveau, centre) : la promesse de `createPile`. */
+const pendingPiles = new Map();
+
 /**
  * `alreadySpent` (0.15.1) : l'unité a déjà été retirée de la fiche du porteur (arme lancée, décomptée par dnd5e).
  * Chez le MJ : pose un objet au sol, **au centre de la case** où tombe `point` — dans le tas de cette case s'il y en
@@ -128,8 +131,15 @@ export async function putOnGround({ scene, point, level=null, elevation=0, from,
     tile = pileTile(region);
     lastDrop.to = pileCenter(region);
   } else {
-    ({ region, tile } = await createPile(scene, center, { level, elevation, img: item.img, name: loc("Drop.PileName"), lastDrop }));
-    created = true;
+    // Un seul tas par case, même si deux objets y tombent ensemble (deux joueurs, les armes lâchées d'une créature) : le tas
+    // n'est sur la scène qu'au retour du serveur, donc le second objet attend celui que le premier est en train de créer.
+    const key = `${scene.id}|${level ?? ""}|${center.x}|${center.y}`;
+    created = !pendingPiles.has(key);
+    if ( created ) {
+      pendingPiles.set(key, createPile(scene, center, { level, elevation, img: item.img, name: loc("Drop.PileName"), lastDrop })
+        .finally(() => pendingPiles.delete(key)));
+    }
+    ({ region, tile } = await pendingPiles.get(key));
   }
   const store = await ensureStore(region.behaviors.contents[0]);
   // `alreadySpent` : l'unité a déjà quitté la fiche (un lancer : dnd5e la décompte lui-même) — on la crée sans en retirer une autre.
