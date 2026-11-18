@@ -3,10 +3,11 @@
  * **région** « Conteneur » de même emprise (§3.2 : fouille, curseur, coffre Groupe). Les deux se reconnaissent par
  * `flags.darsh-loot.pile`. Règles : core/drop.mjs.
  */
-import { MODULE_ID } from "../shared.mjs";
+import { MODULE_ID, loc } from "../shared.mjs";
 import { CONTAINER_TYPE } from "./container-behavior.mjs";
 import { stackTarget, canLeaveOwner } from "../core/loot.mjs";
 import { PILE_FRACTION, pileSpot } from "../core/drop.mjs";
+import { inTurn } from "./ledger.mjs";
 
 /** Icône d'un tas de plusieurs objets différents. */
 export const MIXED_PILE_IMG = "icons/containers/bags/sack-cloth-stitched-brown.webp";
@@ -199,9 +200,19 @@ export async function clearIfEmpty(region) {
  * de la source sont retirés) ; `copy` — la source garde sa quantité (stock infini).
  * @returns {Promise<{ name: string, quantity: number }>}
  */
-export async function moveItem(from, to, itemId, quantity, { anyType=false, launder=false, shop=null, copy=false }={}) {
+export function moveItem(from, to, itemId, quantity, options={}) {
+  return inTurn([from, to], () => moveItemNow(from, to, itemId, quantity, options));
+}
+
+/**
+ * Le déplacement lui-même, pour un geste qui tient déjà son tour sur ces deux acteurs (`inTurn`, adapter/ledger.mjs : un
+ * échange, un troc). Ce que le donneur tient et la pile du receveur se lisent ici, le tour venu.
+ */
+export async function moveItemNow(from, to, itemId, quantity, { anyType=false, launder=false, shop=null, copy=false }={}) {
   const Item5e = CONFIG.Item.documentClass;
   const held = from.items.get(itemId);
+  // Parti pendant l'attente (le même objet posé ou donné deux fois de suite) : un refus, rien ne bouge.
+  if ( !held ) throw new Error(loc("Refus.Introuvable"));
   // 0.15.1 : d'un PNJ, seul l'équipement part, et sous sa version « équipement » (`asGear`, data/item/templates/
   // physical-item.mjs:367 : la Dague du Manuel des joueurs plutôt que la « Dague ombrale » du Familier vampire), comme à la
   // fouille (adapter/dnd5e.mjs `transfer`). Une attaque de créature ne devient pas un objet : rien ne bouge.

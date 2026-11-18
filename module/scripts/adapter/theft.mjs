@@ -5,6 +5,7 @@
 import { MODULE_ID } from "../shared.mjs";
 import { isTrapToken } from "./trapped.mjs";
 import { engineObjectToken } from "./engine.mjs";
+import { inTurn } from "./ledger.mjs";
 import { gearEntries, coinsOf } from "../core/loot.mjs";
 import { theftDC, difficultyOf, priceInGp, purseInGp, purseHandful } from "../core/theft.mjs";
 
@@ -137,7 +138,12 @@ export function victimDC(actor, itemId, handful=null) {
 }
 
 /** Chez le MJ : déplacer des pièces (`{ gp: 3, sp: 10 }`) d'un acteur à l'autre. */
-export async function moveCoins(from, to, coins) {
+export function moveCoins(from, to, coins) {
+  return inTurn([from, to], () => moveCoinsNow(from, to, coins));
+}
+
+/** Les bourses se lisent ici, le tour venu (adapter/ledger.mjs). */
+async function moveCoinsNow(from, to, coins) {
   const cur = from.system.currency ?? {};
   const out = {};
   const add = {};

@@ -11,7 +11,8 @@ import { MODULE_ID, loc, log } from "../shared.mjs";
 import { askGM } from "./take.mjs";
 import { route } from "./router.mjs";
 import { TOKEN_MENU_HOOK } from "../adapter/engine.mjs";
-import { moveItem } from "../adapter/drop.mjs";
+import { moveItemNow } from "../adapter/drop.mjs";
+import { inTurn } from "../adapter/ledger.mjs";
 import { addCoins, COINS } from "../core/loot.mjs";
 import { newTrade, setOffer, accept, unaccept, ready, clampOffer, other } from "../core/trade.mjs";
 import { TradeWindow } from "../apps/trade-window.mjs";
@@ -26,6 +27,9 @@ const Q = {
 
 /** Les échanges en cours, chez le MJ actif. */
 const trades = new Map();
+
+/** Les échanges que le MJ est en train d'exécuter (objets et pièces en route) : plus aucun geste n'y est reçu. */
+const executing = new Set();
 
 /* -------------------------------------------- */
 /*  Côté joueur                                 */
@@ -120,7 +124,7 @@ function sideOf(trade, user) {
 
 function findTrade(id) {
   const trade = trades.get(id);
-  if ( !trade || trade.done || trade.cancelled ) throw new Error(loc("Trade.Over"));
+  if ( !trade || trade.done || trade.cancelled || executing.has(id) ) throw new Error(loc("Trade.Over"));
   return trade;
 }
 
@@ -153,12 +157,19 @@ async function handleUpdate({ id, offer }, { user }) {
 }
 
 async function handleAccept({ id, value }, { user }) {
+  // Un second « valider » pendant l'exécution (double clic) : déjà pris en compte, l'échange ne se refait pas.
+  if ( executing.has(id) ) return true;
   let trade = findTrade(id);
   const side = sideOf(trade, user);
   if ( !side ) throw new Error(loc("Refus.PasAToi"));
   trade = value ? accept(trade, side) : unaccept(trade, side);
   trades.set(id, trade);
-  if ( ready(trade) ) trade = await execute(trade);
+  if ( ready(trade) ) {
+    // Noté avant la première attente : l'échange accepté des deux côtés reste dans `trades` tant qu'il s'exécute.
+    executing.add(id);
+    try { trade = await execute(trade); }
+    finally { executing.delete(id); }
+  }
   trades.set(id, trade);
   await broadcast(trade);
   if ( trade.done ) trades.delete(id);
@@ -167,7 +178,7 @@ async function handleAccept({ id, value }, { user }) {
 
 async function handleCancel({ id }, { user }) {
   const trade = trades.get(id);
-  if ( !trade ) return true;
+  if ( !trade || executing.has(id) ) return true;   // en cours d'exécution : trop tard pour annuler
   if ( !sideOf(trade, user) && !user.isGM ) throw new Error(loc("Refus.PasAToi"));
   const next = { ...trade, cancelled: true, cancelledBy: user.name };
   trades.delete(id);
@@ -178,10 +189,16 @@ async function handleCancel({ id }, { user }) {
 /**
  * L'échange lui-même : chaque offre est confrontée à ce que le personnage possède encore — si elle a changé (un objet
  * vendu entre-temps), les validations tombent et rien ne bouge — puis les objets et les pièces passent d'un côté à l'autre.
+ * Le tout dans un même tour sur les deux personnages (adapter/ledger.mjs) : rien d'autre n'écrit sur leurs fiches entre la
+ * confrontation et la dernière écriture.
  */
 async function execute(trade) {
   const actors = { a: fromUuidSync(trade.a.actor, { strict: false }), b: fromUuidSync(trade.b.actor, { strict: false }) };
   if ( !actors.a || !actors.b ) return { ...trade, cancelled: true };
+  return inTurn([actors.a, actors.b], () => exchange(trade, actors));
+}
+
+async function exchange(trade, actors) {
   for ( const side of ["a", "b"] ) {
     const owned = Object.fromEntries(actors[side].items.map(i => [i.id, i.system.quantity ?? 1]));
     const clamped = clampOffer(trade[side], owned, actors[side].system.currency);
@@ -192,7 +209,7 @@ async function execute(trade) {
     const giver = actors[side];
     const taker = actors[other(side)];
     for ( const { id, quantity } of trade[side].items ) {
-      const moved = await moveItem(giver, taker, id, quantity);
+      const moved = await moveItemNow(giver, taker, id, quantity);
       names[side].push(moved.quantity > 1 ? `${moved.name} (${moved.quantity})` : moved.name);
     }
     const coins = trade[side].coins;
