@@ -14,6 +14,9 @@ import { playForAll, SOUNDS } from "./feedback.mjs";
 
 const TAKE_QUERY = `${MODULE_ID}.take`;
 
+/** Les sources où l'on prend (SPEC §3.1–3.2). */
+const TAKE_KINDS = ["corpse", "container"];
+
 /** Ce qui voyage dans une requête pour désigner une source. */
 export const sourceRef = source => ({ kind: source.kind, uuid: source.uuid });
 
@@ -63,6 +66,9 @@ export function requestTake(source, looter, what) {
 /** Chez le MJ : contrôle puis transfert. Une erreur levée ici revient au joueur comme refus. */
 async function handleTake(payload, { user }) {
   const { source, looter } = checkAccess(payload, user);
+  // Prendre ne vaut que pour un cadavre ou un conteneur : un marchand se paie (`shopDeal`), des poches se volent (`steal`)
+  // (journal, 2026-11-18 ; refus non forçable).
+  if ( !user.isGM && !TAKE_KINDS.includes(source.kind) ) throw new Error(loc("Refus.Introuvable"));
   if ( source.locked() ) throw new Error(loc("Lock.Locked"));
   if ( !source.actor ) throw new Error(loc("Refus.Introuvable"));
   const owner = (source.kind === "container") ? source.doc.system.owner : "";

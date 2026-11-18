@@ -264,7 +264,15 @@ async function runUserMacros(uuids, looter) {
   }
 }
 
-function handleMacros({ macros=[], looter: looterUuid=null }) {
+/**
+ * Chez celui qui actionne, à la demande du MJ actif (`onEnter`). Inscrit sur tous les clients : seul un MJ peut le demander
+ * (journal, 2026-11-18 ; refus non forçable).
+ */
+function handleMacros({ macros=[], looter: looterUuid=null }={}, { user=null }={}) {
+  if ( !user?.isGM ) {
+    log.warn(`mechanism macros refused: requested by ${user?.name ?? "unknown user"}, not a GM`);
+    return false;
+  }
   const looter = looterUuid ? fromUuidSync(looterUuid, { strict: false }) : null;
   return runUserMacros(macros, looter).then(() => true);
 }

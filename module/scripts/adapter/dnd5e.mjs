@@ -131,6 +131,8 @@ export function transfer(corpse, recipient, what={}) {
  * reste à la source se lit ici, le tour venu — une prise arrivée juste avant a pu tout emporter.
  */
 export async function transferNow(corpse, recipient, { itemIds=[], coins=false, stolen=null }={}) {
+  // Un id répété ne crée qu'un objet (journal, 2026-11-18).
+  itemIds = [...new Set(itemIds ?? [])];
   const Item5e = CONFIG.Item.documentClass;
   const available = new Set(gearEntries(plainItems(corpse), requireGear(corpse)).map(e => e.id));
   const taken = { names: [], coins: [] };
