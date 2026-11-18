@@ -324,13 +324,24 @@ export function concealedTraps(scene) {
  * Le coffre piégé lui-même reste visible : seul son piège est caché.
  */
 export function regionHiddenByTraps(region) {
-  for ( const h of allTraps(region.parent) ) {
+  return hiddenByTraps(region.parent).has(region);
+}
+
+/**
+ * Tout ce que les pièges d'une scène cachent encore (régions de déclencheur, sources), en une seule lecture des pièges : pour qui
+ * passe toutes les régions en revue (runtime/hidden.mjs `syncTrapParts`), plutôt que de relire tous les pièges à chaque région.
+ * @returns {Set<RegionDocument|TileDocument|TokenDocument>}
+ */
+export function hiddenByTraps(scene) {
+  const out = new Set();
+  for ( const h of allTraps(scene) ) {
     if ( h.trap.disarmed ) continue;
     // Un levier piégé reste visible (seul son piège est caché), comme un coffre piégé.
-    if ( ["zone", "token"].includes(h.kind) && (h.triggerRegion === region) && concealed(h.hidden) && !clickActivated(h) ) return true;
-    if ( (h.source.doc === region) && concealed(h.source.hidden) ) return true;
+    const trigger = ["zone", "token"].includes(h.kind) ? h.triggerRegion : null;
+    if ( trigger && concealed(h.hidden) && !clickActivated(h) ) out.add(trigger);
+    if ( h.source.doc && concealed(h.source.hidden) ) out.add(h.source.doc);
   }
-  return false;
+  return out;
 }
 
 /** Les tuiles sources que les pièges cachent encore. */
