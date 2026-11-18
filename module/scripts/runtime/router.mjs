@@ -7,6 +7,16 @@ import { log } from "../shared.mjs";
 const routes = new Map();
 
 /**
+ * Appelle un inscrit. Le `try/catch` ne voit que ce qui échoue tout de suite : un inscrit asynchrone rend une promesse, dont
+ * l'échec (une création refusée par le serveur, une suppression en cascade) partait sans étiquette, en rejet non géré.
+ */
+function run(hook, r, args) {
+  const result = r.fn(...args);
+  if ( result instanceof Promise ) result.catch(err => log.error(`${hook} → ${r.name}`, err));
+  return result;
+}
+
+/**
  * @param {string} hook     Nom du hook Foundry.
  * @param {string} name     Nom de la fonctionnalité (journaux, inspection).
  * @param {Function} fn
@@ -18,7 +28,7 @@ export function route(hook, name, fn) {
     routes.set(hook, list);
     Hooks.on(hook, (...args) => {
       for ( const r of list ) {
-        try { r.fn(...args); }
+        try { run(hook, r, args); }
         catch(err) { log.error(`${hook} → ${r.name}`, err); }
       }
     });
@@ -40,7 +50,7 @@ export function routeClaim(hook, name, fn) {
     Hooks.on(hook, (...args) => {
       let veto = false;
       for ( const r of list ) {
-        try { if ( r.fn(...args) === false ) veto = true; }
+        try { if ( run(hook, r, args) === false ) veto = true; }
         catch(err) { log.error(`${hook} → ${r.name}`, err); }
       }
       return veto ? false : undefined;
