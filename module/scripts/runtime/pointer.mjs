@@ -248,9 +248,15 @@ function showSource(source) {
   setHover(cursor ? hoverPlace(source) : null);
 }
 
+/**
+ * En combat ou pendant la visée du moteur, aucune source n'a de curseur (`cursorFor`) : inutile de chercher ce qui est sous la
+ * souris (tous les tokens, toutes les régions, tous les pièges de la scène) pour ne rien en faire.
+ */
+const idle = () => inCombat() || engineTargeting();
+
 function onPointerMove(event) {
   lastMove = event;
-  if ( !onBoard(event) ) return showSource(null);
+  if ( !onBoard(event) || idle() ) return showSource(null);
   showSource(sourceAt(event));
 }
 
@@ -322,7 +328,7 @@ async function goThenOpen(source, looter) {
 
 /** Recalcule le curseur sous la souris après un changement (coffre vidé, serrure ouverte, combat commencé). */
 function recheck() {
-  if ( lastMove && canvas.ready ) showSource(onBoard(lastMove) ? sourceAt(lastMove) : null);
+  if ( lastMove && canvas.ready ) showSource((onBoard(lastMove) && !idle()) ? sourceAt(lastMove) : null);
 }
 
 /** « Fouiller le corps » au menu contextuel d'un cadavre (menu du moteur), hors combat, pour le personnage en main. */
