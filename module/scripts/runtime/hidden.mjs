@@ -307,10 +307,26 @@ async function searchDelay(token) {
 let diceLeadMs = 2500;
 const diceShown = () => !!game.modules.get("dice-so-nice")?.active && !!game.dice3d && !document.hidden;
 
-async function handleSearch({ token: uuid, delayMs=0 }, { user }) {
-  const token = fromUuidSync(uuid, { strict: false });
+/** Les personnages dont le MJ mène une fouille en ce moment (UUID de l'acteur). */
+const searching = new Set();
+
+/**
+ * Une fouille à la fois par personnage. Le délai (`lastSearch`) et l'action dépensée ne s'écrivent qu'en cours de route : une
+ * seconde demande arrivée pendant la durée de la première (double clic sur le bouton du HUD) passait les mêmes contrôles et
+ * lançait une seconde série de jets contre les mêmes objets cachés.
+ */
+async function handleSearch(payload, { user }) {
+  const token = fromUuidSync(payload.token, { strict: false });
   if ( !token?.actor ) throw new Error(loc("Refus.Introuvable"));
   if ( !token.actor.testUserPermission(user, "OWNER") ) throw new Error(loc("Refus.PasAToi"));
+  const key = token.actor.uuid;
+  if ( searching.has(key) ) throw new Error(loc("Hidden.Searching", { name: token.name }));
+  searching.add(key);
+  try { return await search(token, payload); }
+  finally { searching.delete(key); }
+}
+
+async function search(token, { delayMs=0 }) {
   const actor = token.actor;
   // En combat, la fouille est l'action Observation (PHB 2024) : le moteur dit si elle est possible et la décompte.
   const issues = engineBudgetIssues(actor, "action");
