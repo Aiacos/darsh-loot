@@ -148,7 +148,10 @@ export async function putOnGround({ scene, point, level=null, elevation=0, from,
   if ( Object.keys(update).length ) await tile.update(update);
   // Révélée à l'atterrissage : pendant le vol, chacun voit l'objet voler, pas le tas déjà posé. Les clients lancent leur
   // vol un peu après la création (le temps de charger l'image : ~250 ms vu en jeu) — d'où la marge.
-  if ( created && flight ) setTimeout(() => tile.update({ alpha: 1 }), FLIGHT_MS + 350);
+  // Le tas a pu être ramassé pendant le vol (la tuile est partie avec lui) : un refus du serveur, pas un rejet non géré.
+  if ( created && flight ) {
+    setTimeout(() => tile.update({ alpha: 1 }).catch(err => log.warn("pile not revealed:", err.message)), FLIGHT_MS + 350);
+  }
   else if ( created ) await tile.update({ alpha: 1 });
   return region;
 }
