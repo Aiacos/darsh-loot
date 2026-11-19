@@ -9,6 +9,7 @@ installFakeFoundry();
 const { transfer } = await import("../module/scripts/adapter/dnd5e.mjs");
 const { registerTake } = await import("../module/scripts/runtime/take.mjs");
 const { registerMechanismsInit } = await import("../module/scripts/runtime/mechanisms.mjs");
+const { registerHiddenInit } = await import("../module/scripts/runtime/hidden.mjs");
 
 const GM = { id: "gm", isGM: true, name: "MJ" };
 const PLAYER = { id: "joueur", isGM: false, name: "Joueur" };
@@ -18,6 +19,7 @@ const take = (payload, user=PLAYER) => CONFIG.queries["darsh-loot.take"](payload
 beforeAll(() => {
   registerTake();
   try { registerMechanismsInit(); } catch { /* la feuille de réglages n'existe pas ici : seule la requête compte */ }
+  try { registerHiddenInit(); } catch { /* idem */ }
 });
 beforeEach(() => documents.clear());
 
@@ -82,5 +84,17 @@ describe("seul un MJ fait lancer des macros chez un autre", () => {
     expect(await macroQuery()({ macros: ["Macro.m"] }, { user: PLAYER })).toBe(false);
     expect(await macroQuery()({ macros: ["Macro.m"] }, {})).toBe(false);
     expect(ran).toBe(false);
+  });
+});
+
+describe("seul un MJ arrête les déplacements des autres", () => {
+  const halt = () => CONFIG.queries["darsh-loot.halt"];
+
+  it("la requête existe sur ce client", () => expect(typeof halt()).toBe("function"));
+
+  it("envoyée par un joueur : refusée, rien ne s'arrête", () => {
+    const where = scene();
+    documents.set("Scene.s", where);
+    expect(halt()({ scene: "Scene.s" }, { user: PLAYER })).toBe(false);
   });
 });
