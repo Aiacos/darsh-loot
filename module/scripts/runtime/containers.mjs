@@ -79,9 +79,15 @@ async function prepare(behavior) {
 
 const pending = new Map();
 
-async function handleRoll({ behavior: uuid }) {
+async function handleRoll({ behavior: uuid }, { user=null }={}) {
   const behavior = fromUuidSync(uuid, { strict: false });
   if ( behavior?.type !== CONTAINER_TYPE ) return null;
+  // D'un joueur : comme ensureContainer — pas un coffre verrouillé déjà là, et une créature à lui sur la scène.
+  const scene = behavior.parent?.parent ?? null;
+  if ( user && !user.isSelf && !user.isGM && ((behavior.system.actor && behavior.system.locked) || !scene?.tokens.some(t => t.actor?.testUserPermission(user, "OWNER"))) ) {
+    log.warn(`container roll query from ${user.name} refused`);
+    return null;
+  }
   if ( !pending.has(uuid) ) pending.set(uuid, prepare(behavior).finally(() => pending.delete(uuid)));
   await pending.get(uuid);
   return true;

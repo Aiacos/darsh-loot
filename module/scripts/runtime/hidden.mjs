@@ -397,7 +397,9 @@ export function haltScene(scene) {
 }
 
 /** Chez chacun : arrêter les marches du moteur et les déplacements qu'on a lancés sur cette scène. */
-function handleHalt({ scene: uuid }) {
+function handleHalt({ scene: uuid }, { user=null }={}) {
+  // Seul un MJ arrête les déplacements des autres (haltScene) ; d'un joueur, la requête tombe.
+  if ( user && !user.isSelf && !user.isGM ) { log.warn(`halt query from ${user.name} refused: only a GM sends it`); return false; }
   const scene = fromUuidSync(uuid, { strict: false });
   if ( !scene ) return false;
   engineStopWalks();

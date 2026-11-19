@@ -26,9 +26,19 @@ export async function ensureRolled(corpse) {
 }
 
 /** Chez le MJ. Un PNJ mort (fouille) ou vivant (vol à la tire, §3.3) : le trésor tiré de son vivant ne l'est pas deux fois. */
-async function handleRoll({ corpse: uuid }) {
+async function handleRoll({ corpse: uuid }, { user=null }={}) {
   const corpse = fromUuidSync(uuid);
   if ( !corpse?.actor || !(corpseToken(corpse) || livingNPC(corpse)) || isRolled(corpse.actor) ) return null;
+  // D'un joueur : seulement si le MJ a laissé le tirage automatique, et avec une créature à lui sur la scène ; le contenu ne lui est
+  // pas rendu (il le voit en ouvrant, comme tout le monde).
+  if ( user && !user.isSelf && !user.isGM ) {
+    if ( !setting("autoTreasure") || !corpse.parent?.tokens.some(t => t.actor?.testUserPermission(user, "OWNER")) ) {
+      log.warn(`treasure roll query from ${user.name} refused for ${corpse.name}`);
+      return null;
+    }
+    await handleRoll({ corpse: uuid });
+    return true;
+  }
   if ( !pending.has(uuid) ) {
     const run = rollTreasure(corpse.actor, { pockets: setting("pockets") })
       .then(result => { log.info(`treasure of ${corpse.name}:`, result); return result; })
